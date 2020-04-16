@@ -1,0 +1,4 @@
+#Thu Apr 16 17:47:52 VET 2020
+base.0=F\:\\Flutter\\moneto2\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
