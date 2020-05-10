@@ -32,14 +32,14 @@ class ServicioIdiomas {
     print(url);
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-    print("RESPUESTA: "+respuesta.toString());
+    print("RESPUESTA: " + respuesta.toString());
     List<Idioma> _list;
 
-    var resBody = json.decode(respuesta.body).cast<Map<String, dynamic>>();
-    print("RESBODY: "+resBody);
+    var resBody = json.decode(respuesta.body);
+    print("RESBODY: " + resBody.toString());
     var capsules = resBody as List;
 
- print("capsules: "+capsules.toString());
+    print("capsules: " + capsules.toString());
     _list = capsules.map((model) => Idioma.fromJson(model)).toList();
 
     return _list;
