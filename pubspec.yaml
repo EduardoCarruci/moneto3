@@ -27,6 +27,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   progress_dialog: ^1.2.2
   flutter_flexible_toast: ^0.1.4
+  intl: ^0.16.1
   
 
 dev_dependencies:

@@ -72,7 +72,8 @@ class Constants{
       color: Colors.black87,
       fontWeight: FontWeight.w400);
 
-  static String UrlBase="http://198.72.112.52:8080/";
+  static String uri="http://198.72.112.52:8080/";
+  //http://198.72.112.52:8080/api/Monedas/GetListMoneda
 
   static Widget cargando= Center(
     child: new CircularProgressIndicator(
@@ -88,7 +89,5 @@ class Constants{
 
     print("Cargando");
   }
-
-
 
 }

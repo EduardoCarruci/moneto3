@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moneto2/vistas/login.dart';
+import 'package:moneto2/vistas/principales/login.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
