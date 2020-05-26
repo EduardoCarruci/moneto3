@@ -96,7 +96,7 @@ class _ListState extends State<ListCategoriaCalendario>
                  item = new CategoriaCalendario(
                   idCategoriaCalendario: list[index].idCategoriaCalendario,
                   nombre: list[index].nombre,
-                  codigo: list[index].codigo,
+                 
                   //id: list[index].id,
                 );
                 

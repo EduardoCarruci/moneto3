@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneto2/models/tipoCliente.dart';
-import 'package:moneto2/models/tipoDeIdentificacion.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
-import 'package:moneto2/vistas/parametrizacion/tipoIdentificacion/createID.dart';
-import 'package:moneto2/vistas/parametrizacion/tipoIdentificacion/editID.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/createTipoCliente.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/servicio.dart';
 
@@ -96,10 +93,14 @@ class _ListIDState extends State<ListTipoCliente> with WidgetsBindingObserver {
                   codigo: list[index].codigo,
                   nombre: list[index].nombre,
                   idIdioma: list[index].idIdioma,
-                  idColorApp: list[index].idColorApp,
+                  idioma: list[index].idioma,
+                  idColorAPP: list[index].idColorAPP,
+                  ColorAPP: list[index].ColorAPP,
                   idCabeceraMetadata: list[index].idCabeceraMetadata,
+                  CabeceraMetadata: list[index].CabeceraMetadata,
                 );
-
+              
+                
                 Navigator.push(
                     context,
                     MaterialPageRoute(

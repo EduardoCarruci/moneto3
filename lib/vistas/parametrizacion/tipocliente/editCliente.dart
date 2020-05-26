@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moneto2/models/cabecerametadata.dart';
 import 'package:moneto2/models/color.dart';
 import 'package:moneto2/models/idiomas.dart';
 import 'package:moneto2/models/tipoCliente.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/cabeceraMetadata/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/color/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/idiomas/servicio.dart';
-import 'package:moneto2/vistas/parametrizacion/metadata/servicio.dart';
 
 import 'package:moneto2/widgets/load.dart';
 
@@ -32,7 +33,7 @@ class _Edit extends State<EditCliente>
   ServicioParametrizacion servicio = new ServicioParametrizacion();
 
   ServicioIdiomas servicioIdioma = new ServicioIdiomas();
-  ServicioMetadata servicioMetadata = new ServicioMetadata();
+  ServicioCabeceraMetadata servicioMetadata = new ServicioCabeceraMetadata();
   ServicioColor servicioColor = new ServicioColor();
 
   Loads loads;
@@ -42,11 +43,11 @@ class _Edit extends State<EditCliente>
   String opcionidioma = "Seleccionar";
   String idIdioma;
 
+  String opcionMetadata = "Seleccionar";
+  String idMetadata;
+
   String opcionColor = "Seleccionar";
   String idColor;
-
-  List<Idioma> _listIdiomas;
-  List<ColorApp> _listColorApp;
 
   @override
   void initState() {
@@ -55,18 +56,19 @@ class _Edit extends State<EditCliente>
 
     _NombreController = new TextEditingController(text: widget.item.nombre);
     _CodigoController = new TextEditingController(text: widget.item.codigo);
-    /**
-     * "idIdioma" : "1",
-"idColorAPP" : "1",
-
-     * 
-     */
+    opcionidioma = widget.item.idioma;
     idIdioma = widget.item.idIdioma.toString();
-    idColor = widget.item.idColorApp.toString();
-    getIdiomas();
-/* 
-   
-    getColorsAPP(); */
+    opcionMetadata = widget.item.CabeceraMetadata;
+    idMetadata = widget.item.idCabeceraMetadata.toString();
+    opcionColor = widget.item.ColorAPP;
+    idColor = widget.item.idColorAPP.toString();
+
+    print(opcionidioma);
+    print(idIdioma);
+    print(opcionMetadata);
+    print(idMetadata);
+    print(opcionColor);
+    print(idColor);
 
     super.initState();
   }
@@ -76,13 +78,6 @@ class _Edit extends State<EditCliente>
     WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
-  }
-
-  Future<void> getIdiomas() async {
-    _listIdiomas = await servicioIdioma.getUniqueIdioma(
-        widget.data_user.Token, widget.item.idIdioma.toString());
-
-    print("LIST IDIOMAS EN FUNCION: " + _listIdiomas.toString());
   }
 
   @override
@@ -133,185 +128,242 @@ class _Edit extends State<EditCliente>
               body: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "Codigo:",
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 16),
-                          ),
-                          Container(
-                            //color: Colors.red,
-                            width: width * 0.30,
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: "Codigo",
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.text,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 20.0, top: 20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Codigo:",
+                          style: TextStyle(color: Colors.black54, fontSize: 16),
+                        ),
+                        Container(
+                          //color: Colors.red,
+                          width: width * 0.90,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Requerido';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                //labelText: "Codigo",
+                                //border: InputBorder.none,
+                                ),
+                            keyboardType: TextInputType.text,
 
-                              controller: _CodigoController,
-                              textInputAction: TextInputAction.done,
-                              onChanged: (va) {},
-                              // focusNode: _local,
-                            ),
+                            controller: _CodigoController,
+                            textInputAction: TextInputAction.done,
+                            onChanged: (va) {},
+                            // focusNode: _local,
                           ),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "Nombre:",
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 16),
-                          ),
-                          Container(
-                            //color: Colors.red,
-                            width: width * 0.30,
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: "Nombre",
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.text,
+                        ),
+                        SizedBox(height: 20.0),
+                        Text(
+                          "Nombre:",
+                          style: TextStyle(color: Colors.black54, fontSize: 16),
+                        ),
+                        Container(
+                          //color: Colors.red,
+                          width: width * 0.90,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Requerido';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                //labelText: "Nombre",
+                                //border: InputBorder.none,
+                                ),
+                            keyboardType: TextInputType.text,
 
-                              controller: _NombreController,
-                              textInputAction: TextInputAction.done,
-                              onChanged: (va) {},
-                              // focusNode: _local,
-                            ),
+                            controller: _NombreController,
+                            textInputAction: TextInputAction.done,
+                            onChanged: (va) {},
+                            // focusNode: _local,
                           ),
-                        ],
-                      ),
-                      /*    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "Idioma:",
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 16),
-                          ),
-                          FutureBuilder<List<Idioma>>(
-                              initialData: _listIdiomas,
-                              future:
-                                  servicioIdioma.getAll(widget.data_user.Token),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List<Idioma>> snapshot) {
-                                if (!snapshot.hasData)
-                                  return CircularProgressIndicator();
-                                return DropdownButton<Idioma>(
-                                  itemHeight: 50,
-                                  style: TextStyle(color: Colors.black),
-                                  items: snapshot.data
-                                      .map((data) => DropdownMenuItem<Idioma>(
-                                            child: Text(
-                                              data.descripcion,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
-                                            ),
-                                            value: data,
-                                          ))
-                                      .toList(),
-                                  onChanged: (Idioma value) {
-                                    idIdioma = value.idIdioma.toString();
-                                    print(value.idIdioma);
-                                    print(value.descripcion);
-                                    opcionidioma = value.descripcion;
-                                    setState(() {});
-                                  },
-                                  isExpanded: false,
-                                  hint: Text(
-                                    opcionidioma,
-                                    style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          //color: Colors.red,
+                          width: width * 0.90,
+                          child: Row(
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            //mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                //crossAxisAlignment: CrossAxisAlignment.center,
+                                /*   mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly, */
+                                children: <Widget>[
+                                  Text(
+                                    "Idioma:",
+                                    style: TextStyle(
+                                        color: Colors.black54, fontSize: 16),
                                   ),
-                                  icon: Icon(Icons.arrow_downward),
-                                  /*  value: value[],
-                                                hint: Text(""), */
-                                );
-                              }),
-                        
-                        
-                        ],
-                      ),
- */
-                      /*
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "Colores:",
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 16),
-                          ),
-                          FutureBuilder<List<ColorApp>>(
-                              future:
-                                  servicioColor.getAll(widget.data_user.Token),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List<ColorApp>> snapshot) {
-                                if (!snapshot.hasData)
-                                  return CircularProgressIndicator();
-                                return DropdownButton<ColorApp>(
-                                  itemHeight: 50,
-                                  style: TextStyle(color: Colors.black),
-                                  items: snapshot.data
-                                      .map((data) => DropdownMenuItem<ColorApp>(
-                                            child: Text(
-                                              data.nombre,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
+                                  SizedBox(width: 20.0),
+                                  Container(
+                                    // color: Colors.green,
+                                    child: FutureBuilder<List<Idioma>>(
+                                        future: servicioIdioma
+                                            .getAll(widget.data_user.Token),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<List<Idioma>>
+                                                snapshot) {
+                                          if (!snapshot.hasData)
+                                            return CircularProgressIndicator();
+                                          return DropdownButton<Idioma>(
+                                            itemHeight: 50,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            items: snapshot.data
+                                                .map((data) =>
+                                                    DropdownMenuItem<Idioma>(
+                                                      child: Text(
+                                                        data.descripcion,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                      ),
+                                                      value: data,
+                                                    ))
+                                                .toList(),
+                                            onChanged: (Idioma value) {
+                                              idIdioma =
+                                                  value.idIdioma.toString();
+                                              print(value.idIdioma);
+                                              print(value.descripcion);
+                                              opcionidioma = value.descripcion;
+                                              setState(() {});
+                                            },
+                                            isExpanded: false,
+                                            hint: Text(
+                                              opcionidioma,
+                                              style: TextStyle(fontSize: 16),
                                             ),
-                                            value: data,
-                                          ))
-                                      .toList(),
-                                  onChanged: (ColorApp value) {
-                                    idColor = value.idColorAPP.toString();
-                                    opcionColor = value.nombre;
-
-                                    /*  idMetadata =
-                                                    value.idMetadata.toString();
-                                                print(value.idMetadata);
-                                                print(value.nombreCampo);
-                                                opcionMetadata = value.nombreCampo;  */
-                                    setState(() {});
-                                  },
-                                  isExpanded: false,
-                                  hint: Text(
-                                    opcionColor,
-                                    style: TextStyle(fontSize: 16),
+                                            icon: Icon(Icons.arrow_downward),
+                                            /*  value: value[],
+                                                    hint: Text(""), */
+                                          );
+                                        }),
                                   ),
-                                  icon: Icon(Icons.arrow_downward),
-                                  /*  value: value[],
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Colores:",
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 16),
+                            ),
+                            SizedBox(
+                              width: 20.0,
+                            ),
+                            FutureBuilder<List<ColorApp>>(
+                                future: servicioColor
+                                    .getAll(widget.data_user.Token),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<List<ColorApp>> snapshot) {
+                                  if (!snapshot.hasData)
+                                    return CircularProgressIndicator();
+                                  return DropdownButton<ColorApp>(
+                                    itemHeight: 50,
+                                    style: TextStyle(color: Colors.black),
+                                    items: snapshot.data
+                                        .map((data) =>
+                                            DropdownMenuItem<ColorApp>(
+                                              child: Text(
+                                                data.nombre,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16),
+                                              ),
+                                              value: data,
+                                            ))
+                                        .toList(),
+                                    onChanged: (ColorApp value) {
+                                      idColor = value.idColorAPP.toString();
+                                      opcionColor = value.nombre;
+                                      setState(() {});
+                                      print(opcionColor.toString());
+                                      print(idColor.toString());
+                                    },
+                                    isExpanded: false,
+                                    hint: Text(
+                                      opcionColor,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    icon: Icon(Icons.arrow_downward),
+                                    /*  value: value[],
                                                 hint: Text(""), */
-                                );
-                              }),
-                        ],
-                      ),
-                    */
-                    ],
+                                  );
+                                }),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Metadata:",
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 16),
+                            ),
+                            SizedBox(
+                              width: 20.0,
+                            ),
+                            FutureBuilder<List<CabeceraMetadata>>(
+                                future: servicioMetadata.getCabeceraMetadata(
+                                    widget.data_user.Token),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<List<CabeceraMetadata>>
+                                        snapshot) {
+                                  if (!snapshot.hasData)
+                                    return CircularProgressIndicator();
+                                  return DropdownButton<CabeceraMetadata>(
+                                    itemHeight: 50,
+                                    style: TextStyle(color: Colors.black),
+                                    items: snapshot.data
+                                        .map((data) =>
+                                            DropdownMenuItem<CabeceraMetadata>(
+                                              child: Text(
+                                                data.nombre,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16),
+                                              ),
+                                              value: data,
+                                            ))
+                                        .toList(),
+                                    onChanged: (CabeceraMetadata value) {
+                                      idMetadata =
+                                          value.idCabeceraMetadata.toString();
+                                      print(value.idCabeceraMetadata);
+                                      print(value.nombre);
+                                      opcionMetadata = value.nombre;
+                                      setState(() {});
+                                    },
+                                    isExpanded: false,
+                                    hint: Text(
+                                      opcionMetadata,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    icon: Icon(Icons.arrow_downward),
+                                    /*  value: value[],
+                                                hint: Text(""), */
+                                  );
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -321,42 +373,39 @@ class _Edit extends State<EditCliente>
   }
 
   update() async {
-    /*  if (_formKey.currentState.validate()) {
-      Metadata nuevo = new Metadata();
-
+    if (_formKey.currentState.validate()) {
+      TipoCliente nuevo = new TipoCliente();
       Map data = nuevo.convertMapOP(
-        widget.item.idMetadata,
-        _CodigoController.text,
-        _NombreController.text,
-        _NombreCampoController.text,
-        _NombreEquivalenciaController.text,
-      );
-
+          widget.item.idTipoCliente,
+          _CodigoController.text.trim().toString(),
+          _NombreController.text.trim().toString(),
+          idIdioma,
+          idColor,
+          idMetadata);
+      print(data);
       await servicio.edit(widget.data_user.Token, data,
-          widget.item.idMetadata.toString(), context, 'api/Metadata/Update/');
+          widget.item.idTipoCliente.toString(), context, 'api/TipoCliente/Update/'); 
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
-    } */
+    }
   }
 
   delete() async {
-    /*   if (_formKey.currentState.validate()) {
-      Metadata nuevo = new Metadata();
-
-       Map data = nuevo.convertMapOP(
-        widget.item.idMetadata,
-        _CodigoController.text,
-        _NombreController.text,
-        _NombreCampoController.text,
-        _NombreEquivalenciaController.text,
-      );
-
-      await servicio.delete(widget.data_user.Token, data,
-          widget.item.idMetadata.toString(), context,'api/Metadata/Delete/');
+     if (_formKey.currentState.validate()) {
+      TipoCliente nuevo = new TipoCliente();
+    Map data = nuevo.convertMapOP(
+          widget.item.idTipoCliente,
+          _CodigoController.text.trim().toString(),
+          _NombreController.text.trim().toString(),
+          idIdioma,
+          idColor,
+          idMetadata);
+      await servicio.edit(widget.data_user.Token, data,
+          widget.item.idTipoCliente.toString(), context, 'api/TipoCliente/Delete/');
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
-    }  */
-  }
+    }
+    }
 }

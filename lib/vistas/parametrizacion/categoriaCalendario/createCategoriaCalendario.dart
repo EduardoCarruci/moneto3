@@ -103,25 +103,7 @@ class _Crear_CategoriaState extends State<CreateCategoriaCalendario>
                               ),
                               flex: 3,
                             ),
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration:
-                                    InputDecoration(labelText: "Código "),
-                                keyboardType: TextInputType.text,
-
-                                controller: _CodigoController,
-                                textInputAction: TextInputAction.done,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
+                           
                           ],
                           crossAxisAlignment: CrossAxisAlignment.start,
                         ),
@@ -136,7 +118,7 @@ class _Crear_CategoriaState extends State<CreateCategoriaCalendario>
       CategoriaCalendario nuevo = new CategoriaCalendario();
 
       Map data =
-          nuevo.converCreate(_CodigoController.text, _NombreController.text);
+          nuevo.converCreate( _NombreController.text);
 
       //al servicio
       await servicio.create(widget.data_user.Token, data, context,'api/CategoriaCalendario/Create');

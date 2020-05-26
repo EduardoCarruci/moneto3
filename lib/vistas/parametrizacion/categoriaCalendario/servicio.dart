@@ -23,7 +23,7 @@ class ServicioCategoriaCalendario {
 
     _list =
         capsules.map((model) => CategoriaCalendario.fromJson(model)).toList();
-
+    //print(resBody);
     return _list;
   }
 }

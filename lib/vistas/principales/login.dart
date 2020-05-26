@@ -109,21 +109,20 @@ class _LoginState extends State<Login> {
             body: Stack(
               overflow: Overflow.clip,
               children: <Widget>[
-                SingleChildScrollView(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.height
-                        : MediaQuery.of(context).size.height * 1.3,
-                    //  #510C3D
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration:
-                        new BoxDecoration(gradient: Constants.gradiente),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).orientation ==
+                          Orientation.portrait
+                      ? MediaQuery.of(context).size.height
+                      : MediaQuery.of(context).size.height * 1.3,
+                  //  #510C3D
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  decoration:
+                      new BoxDecoration(gradient: Constants.gradiente),
 
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
                         children: <Widget>[
                           Expanded(
                             child: Icon(Icons.monetization_on),
@@ -239,11 +238,11 @@ class _LoginState extends State<Login> {
                                   child: Center(
                                     child: GestureDetector(
                                       child: new Text(
-                                          '¿No tienes usuario? Regístrate aquí',
-                                          style: new TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 14)),
+                    '¿No tienes usuario? Regístrate aquí',
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 14)),
                                       onTap: () {},
                                     ),
                                   ),
@@ -253,12 +252,12 @@ class _LoginState extends State<Login> {
                                     child: Center(
                                       child: GestureDetector(
                                         child: new Text('Recuperar contraseña',
-                                            style: new TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontSize: 14)),
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 14)),
                                         onTap: () {
-                                          //  Navigator.push(context, MaterialPageRoute(builder: (context) => Recuperar()));
+                    //  Navigator.push(context, MaterialPageRoute(builder: (context) => Recuperar()));
                                         },
                                       ),
                                     )),
@@ -268,7 +267,6 @@ class _LoginState extends State<Login> {
                           ),
                         ],
                       ),
-                    ),
                   ),
                 ),
               ],
@@ -285,8 +283,9 @@ class _LoginState extends State<Login> {
     loads = new Loads(context);
 
     loads.progressCarga("Validando Datos");
-
-    var url = "http://198.72.112.52:8080/api/login/authenticate";
+    //http://198.72.112.52/Monetapi/api/login/authenticate
+    //http://198.72.112.52/Monetapi/
+    var url = "http://198.72.112.52/Monetapi/api/login/authenticate";
     http.post(url, body: {
       "Username": "admin",
       "Password": "admin_LaSolucion"
@@ -296,13 +295,15 @@ class _LoginState extends State<Login> {
         var to = bod.split(':');
         var token = to[1].split('"');
         print(token[0].trim());
-        data_user = new User(1, "Carlos", token[0].trim(),"7"); // HARDCODEADO
+        //data_user = new User(1, "Carlos", token[0].trim(),"7"); // HARDCODEADO
+
+        //print("RESBODY: "+resBody);
         loads.cerrar();
         Login(token[0].trim());
       } else if (response.statusCode >= 300) {
-         loads.toast(2, " Datos Incorrectos");
+        loads.toast(2, " Datos Incorrectos");
         loads.cerrar();
-       
+
         loads.cerrar();
         print("CAISTE ACA");
       }
@@ -312,21 +313,25 @@ class _LoginState extends State<Login> {
   Future Login(var token) async {
     // rg@gmail.com
     //1211
-    //loads = new Loads(context);
-    //loads.progressCarga("Iniciando Sesión");
+
     final response = await http.get(
-      'http://198.72.112.52:8080/api/usuarios/Login?mail=${_usuarioController.text}&password=${_passwordController.text}',
+      'http://198.72.112.52/Monetapi/api/usuarios/Login?mail=${_usuarioController.text.trim()}&password=${_passwordController.text}',
       headers: {HttpHeaders.authorizationHeader: token},
     );
-    //print(" desd el get " + response.body);
+
     if (response.statusCode == 200) {
       loads.cerrar();
-     // loads.cerrar();
+
+      print(response.body);
+
+      final user = User.fromJson(response.body);
+      user.Token = token;
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home(data_user)));
+          context, MaterialPageRoute(builder: (context) => Home(user)));
     } else if (response.statusCode >= 300) {
-       loads.toast(2, "Los datos ingresados son incorrectos");
-     // loads.cerrar();
+      loads.toast(2, "Los datos ingresados son incorrectos");
+      // loads.cerrar();
       //Navigator.pop(context);
       loads.cerrar();
     }

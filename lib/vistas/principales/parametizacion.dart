@@ -6,6 +6,7 @@ import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/categoria/listCategorias.dart';
 import 'package:moneto2/vistas/parametrizacion/categoriaCalendario/listCategoriaCalendario.dart';
+import 'package:moneto2/vistas/parametrizacion/cuentacontable/list.dart';
 import 'package:moneto2/vistas/parametrizacion/estadocivil/listEstadoCivil.dart';
 import 'package:moneto2/vistas/parametrizacion/estrato/listEstrato.dart';
 import 'package:moneto2/vistas/parametrizacion/franquicia/listFranquicia.dart';
@@ -18,6 +19,7 @@ import 'package:moneto2/vistas/parametrizacion/metadata/listmetadata.dart';
 import 'package:moneto2/vistas/parametrizacion/moneda/listmonedas.dart';
 
 import 'package:moneto2/vistas/parametrizacion/periodicidad/listperiodicidad.dart';
+import 'package:moneto2/vistas/parametrizacion/seguridad/listseguridad.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoIdentificacion/listID.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoalarma/listTipoAlarma.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/list.dart';
@@ -105,7 +107,6 @@ class ParametizacionState extends State<Parametizacion>
           MaterialPageRoute(
               builder: (context) => ListMedioDePago(widget.data_user)));
     } else if (pos == 3) {
-      print("VOY A LISTAR CATEGORIAS");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -118,7 +119,9 @@ class ParametizacionState extends State<Parametizacion>
     } else if (pos == 5) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => ListID(widget.data_user)));
-    } else if (pos == 8) {
+    }
+     else if (pos == 7) { Navigator.push(context, MaterialPageRoute(builder: (context) => ListCuentaContable(widget.data_user)));}
+    else if (pos == 8) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -163,7 +166,14 @@ class ParametizacionState extends State<Parametizacion>
           context,
           MaterialPageRoute(
               builder: (context) => ListTipoCliente(widget.data_user)));
-    } else {}
+    }else if (pos == 17) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListSeguridad(widget.data_user)));
+    }else{
+
+    }
 
     /*              
     
@@ -171,7 +181,7 @@ class ParametizacionState extends State<Parametizacion>
  
     else if (pos == 14) { Navigator.push(context, MaterialPageRoute(builder: (context) => List_Genero(widget.data_user)));}
     }
-    else if (pos == 7) { Navigator.push(context, MaterialPageRoute(builder: (context) => List_Cuentas_Contables(widget.data_user)));}
+ 
     else if (pos == 7) { Navigator.push(context, MaterialPageRoute(builder: (context) => Crear_Contable()));} */
   }
 

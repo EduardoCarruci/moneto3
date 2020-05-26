@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class Constants{
-  static String UrlBase1="http://198.72.112.52:8080/";
+  static String UrlBase1="http://198.72.112.52/Monetapi/";
   static String appName = "Foody Bite";
   static Color lightPrimary = Color(0xff5D1049);
   static Color darkPrimary = Color(0xff4F0A3c);
@@ -71,8 +71,8 @@ class Constants{
       fontSize: 15.0,
       color: Colors.black87,
       fontWeight: FontWeight.w400);
-
-  static String uri="http://198.72.112.52:8080/";
+//http://198.72.112.52/Monetapi
+  static String uri="http://198.72.112.52/Monetapi/";
   //http://198.72.112.52:8080/api/Monedas/GetListMoneda
 
   static Widget cargando= Center(

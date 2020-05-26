@@ -14,8 +14,8 @@ class ServicioTipoidentificacion {
 
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-    print(url);
-    print(respuesta);
+   /*  print(url);
+    print(respuesta); */
     List<TipoIdentificacion> _list;
 
     var resBody = json.decode(respuesta.body);
@@ -24,9 +24,9 @@ class ServicioTipoidentificacion {
 
     _list =
         capsules.map((model) => TipoIdentificacion.fromJson(model)).toList();
-        print(resBody);
+       /*  print(resBody);
         print(capsules);
-        print(_list);
+        print(_list); */
 
   return _list;
   }

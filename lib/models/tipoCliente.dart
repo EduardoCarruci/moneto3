@@ -1,73 +1,84 @@
-//"$id":"1","idTipoCliente":2,"codigo":"asde1","nombre":"Proveedor1k","idIdioma":1,"idColoresLookFeel":1,"idMetadata":1
-
 class TipoCliente {
-  String id;
+  int id;
   int idTipoCliente;
   String codigo;
   String nombre;
   int idIdioma;
-  int idColorApp;
+  String idioma;
+  int idColorAPP;
+  String ColorAPP;
   int idMetadata;
   String idUsuario;
   int idCabeceraMetadata;
+  String CabeceraMetadata;
 
   TipoCliente({
     this.id,
-    this.idMetadata,
     this.idTipoCliente,
     this.codigo,
     this.nombre,
     this.idIdioma,
-    this.idColorApp,
+    this.idioma,
+    this.idColorAPP,
+    this.ColorAPP,
+    this.idMetadata,
     this.idUsuario,
-    this.idCabeceraMetadata
+    this.idCabeceraMetadata,
+    this.CabeceraMetadata,
   });
+  Map<String, dynamic> toMap() => {
+        "\u0024id": id,
+        "idTipoCliente": idTipoCliente,
+        "codigo": codigo,
+        "nombre": nombre,
+        "idIdioma": idIdioma,
+        "idioma": idioma,
+        "idColorAPP": idColorAPP,
+        "ColorAPP": ColorAPP,
+        "idCabeceraMetadata": idCabeceraMetadata,
+        "CabeceraMetadata": CabeceraMetadata,
+      };
 
   //create
-
-  /*
-  
-  "codigo" : "aswd",
-"nombre" : "Proveedor 1",
-"idIdioma" : "1",
-"idColoresLookFeel" : "1",
-"idMetadata" : "1"
-*/
-  convertMap(String codigo, String nombre, String idIdioma,
-      String idColorApp, String idUsuario) {
+  convertMap(String codigo, String nombre, String idIdioma, String idColorAPP,
+      String idCabeceraMetadata) {
     Map data = {
       "codigo": codigo,
       "nombre": nombre,
       "idIdioma": idIdioma,
-      "idColorApp": idColorApp,
-      "idUsuario": idUsuario,
+      "idColorAPP": idColorAPP,
+      "idCabeceraMetadata": idCabeceraMetadata,
     };
     return data;
   }
 
-  //modificar
-/*   convertMapOP(int idMetadata, String codigo, String nombreMetadata,
-      String nombreCampo, String nombreEquivalencia) {
+  convertMapOP(int idTipoCliente, String codigo, String nombre, String idIdioma,
+      String idColorAPP, String idCabeceraMetadata) {
     Map data = {
-      "idMetadata": idMetadata,
+      "idTipoCliente": idTipoCliente,
       "codigo": codigo,
-      "nombreMetadata": nombreMetadata,
-      "nombreCampo": nombreCampo,
-      "nombreEquivalencia": nombreEquivalencia,
+      "nombre": nombre,
+      "idIdioma": idIdioma,
+      "idColorAPP": idColorAPP,
+      "idCabeceraMetadata": idCabeceraMetadata,
     };
+
     return data;
   }
- */
+
 //LEER
 
-//{"$id":"1","idTipoCliente":2,"codigo":"asde1","nombre":"Proveedor1k","idIdioma":1,"idColoresLookFeel":1,"idMetadata":1}
+//"$id":"1","idTipoCliente":2,"codigo":"asde1","nombre":"Proveedor1k","idIdioma":1,"idColorAPP":null,"idCabeceraMetadata":2
   TipoCliente.fromJson(Map json)
       : id = json['id'],
         idTipoCliente = json['idTipoCliente'],
         codigo = json['codigo'],
         nombre = json['nombre'],
         idIdioma = json['idIdioma'],
-        idUsuario = json['idUsuario'],
-        idCabeceraMetadata = json['idCabeceraMetadata']
-        ;
+        idioma = json['idioma'],
+        idColorAPP = json['idColorAPP'],
+        ColorAPP = json['ColorAPP'],
+        idMetadata = json['idMetadata'],
+        idCabeceraMetadata = json['idCabeceraMetadata'],
+        CabeceraMetadata = json['CabeceraMetadata'];
 }

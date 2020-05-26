@@ -27,8 +27,8 @@ class ServicioTipoCliente {
         capsules.map((model) => TipoCliente.fromJson(model)).toList();
       /*   print(resBody);
         print(capsules);
-        print(_list); */
-
+       */
+  //print(resBody);
   return _list;
   }
 }

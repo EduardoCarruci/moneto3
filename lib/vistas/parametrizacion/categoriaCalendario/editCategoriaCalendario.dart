@@ -29,7 +29,7 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
   void initState() {
     super.initState();
     _NombreController = new TextEditingController(text: widget.actual.nombre);
-    _CodigoController = new TextEditingController(text: widget.actual.codigo);
+  
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -111,25 +111,7 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
                             ),
                             flex: 3,
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(labelText: "Código "),
-                              keyboardType: TextInputType.text,
-
-                              controller: _CodigoController,
-                              textInputAction: TextInputAction.done,
-                              onChanged: (va) {},
-
-                              // focusNode: _local,
-                            ),
-                            flex: 3,
-                          ),
+                          
                         ],
                         crossAxisAlignment: CrossAxisAlignment.start,
                       ),
@@ -144,7 +126,7 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
 
       Map data = item.convertMapOP(
         widget.actual.idCategoriaCalendario.toString(),
-        _CodigoController.text,
+        
         _NombreController.text
       );
 
@@ -163,7 +145,7 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
       
       Map data = item.convertMapOP(
         widget.actual.idCategoriaCalendario.toString(),
-        _CodigoController.text,
+       
         _NombreController.text
       );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moneto2/models/cabecerametadata.dart';
 import 'package:moneto2/models/color.dart';
 import 'package:moneto2/models/idiomas.dart';
 import 'package:moneto2/models/metadata.dart';
@@ -11,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/cabeceraMetadata/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/color/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/idiomas/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/metadata/servicio.dart';
@@ -32,7 +34,7 @@ class _Crear extends State<CreateTipoCliente>
   ServicioParametrizacion servicio = new ServicioParametrizacion();
 
   ServicioIdiomas servicioIdioma = new ServicioIdiomas();
-  ServicioMetadata servicioMetadata = new ServicioMetadata();
+  ServicioCabeceraMetadata servicioMetadata = new ServicioCabeceraMetadata();
   ServicioColor servicioColor = new ServicioColor();
 
   Loads loads;
@@ -218,7 +220,7 @@ class _Crear extends State<CreateTipoCliente>
                             }),
                       ],
                     ),
-/*                     Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -226,20 +228,22 @@ class _Crear extends State<CreateTipoCliente>
                           "Metadata:",
                           style: TextStyle(color: Colors.black54, fontSize: 16),
                         ),
-                        FutureBuilder<List<Metadata>>(
-                            future:
-                                servicioMetadata.getAll(widget.data_user.Token),
+                        FutureBuilder<List<CabeceraMetadata>>(
+                            future: servicioMetadata
+                                .getCabeceraMetadata(widget.data_user.Token),
                             builder: (BuildContext context,
-                                AsyncSnapshot<List<Metadata>> snapshot) {
+                                AsyncSnapshot<List<CabeceraMetadata>>
+                                    snapshot) {
                               if (!snapshot.hasData)
                                 return CircularProgressIndicator();
-                              return DropdownButton<Metadata>(
+                              return DropdownButton<CabeceraMetadata>(
                                 itemHeight: 50,
                                 style: TextStyle(color: Colors.black),
                                 items: snapshot.data
-                                    .map((data) => DropdownMenuItem<Metadata>(
+                                    .map((data) =>
+                                        DropdownMenuItem<CabeceraMetadata>(
                                           child: Text(
-                                            data.nombreCampo,
+                                            data.nombre,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16),
@@ -247,11 +251,12 @@ class _Crear extends State<CreateTipoCliente>
                                           value: data,
                                         ))
                                     .toList(),
-                                onChanged: (Metadata value) {
-                                  idMetadata = value.idMetadata.toString();
-                                  print(value.idMetadata);
-                                  print(value.nombreCampo);
-                                  opcionMetadata = value.nombreCampo;
+                                onChanged: (CabeceraMetadata value) {
+                                  idMetadata =
+                                      value.idCabeceraMetadata.toString();
+                                  print(value.idCabeceraMetadata);
+                                  print(value.nombre);
+                                  opcionMetadata = value.nombre;
                                   setState(() {});
                                 },
                                 isExpanded: false,
@@ -265,14 +270,17 @@ class _Crear extends State<CreateTipoCliente>
                               );
                             }),
                       ],
-                    ), */
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
                           "Colores:",
                           style: TextStyle(color: Colors.black54, fontSize: 16),
+                        ),
+                        SizedBox(
+                          width: 20.0,
                         ),
                         FutureBuilder<List<ColorApp>>(
                             future:
@@ -298,13 +306,9 @@ class _Crear extends State<CreateTipoCliente>
                                 onChanged: (ColorApp value) {
                                   idColor = value.idColorAPP.toString();
                                   opcionColor = value.nombre;
-
-                                  /*  idMetadata =
-                                                    value.idMetadata.toString();
-                                                print(value.idMetadata);
-                                                print(value.nombreCampo);
-                                                opcionMetadata = value.nombreCampo;  */
                                   setState(() {});
+                                  print(opcionColor.toString());
+                                  print(idColor.toString());
                                 },
                                 isExpanded: false,
                                 hint: Text(
@@ -333,12 +337,11 @@ class _Crear extends State<CreateTipoCliente>
   save() async {
     if (_formKey.currentState.validate()) {
       TipoCliente nuevo = new TipoCliente();
-
-      Map data = nuevo.convertMap(
-          _CodigoController.text, _NombreController.text, idIdioma, idColor,widget.data_user.id.toString()
-          
-          );
-
+//String codigo, String nombre, String idIdioma,
+      // String idColorAPP
+      Map data = nuevo.convertMap(_CodigoController.text.trim(),
+          _NombreController.text.trim(), idIdioma, idColor, idMetadata);
+      print("DATA: " + data.toString());
       //al servicio
       await servicio.create(
           widget.data_user.Token, data, context, 'api/TipoCliente/Create');

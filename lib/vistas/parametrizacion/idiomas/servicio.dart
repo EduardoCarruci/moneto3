@@ -12,7 +12,7 @@ class ServicioIdiomas {
 
   Future<List<Idioma>> getAll(String token) async {
     String url = Constants.uri + 'api/Idioma/GetListIdioma';
-
+  print(url);
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
 
@@ -28,20 +28,24 @@ class ServicioIdiomas {
   }
 
   Future<List<Idioma>> getUniqueIdioma(String token, String idIdioma) async {
-    String url = Constants.uri + 'api/Idioma/GetIdioma/7';
+    String url = Constants.uri + 'api/Idioma/GetIdioma/' +idIdioma.toString();
     print(url);
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-    print("RESPUESTA: " + respuesta.toString());
-    List<Idioma> _list;
+  //  print("RESPUESTA: " + respuesta.toString());
 
-    var resBody = json.decode(respuesta.body);
-    print("RESBODY: " + resBody.toString());
-    var capsules = resBody as List;
+    Map<String, dynamic> resBody = json.decode(respuesta.body);
+    //print("RESBODY: " + resBody.toString());
+   // var capsules = resBody;
 
-    print("capsules: " + capsules.toString());
-    _list = capsules.map((model) => Idioma.fromJson(model)).toList();
-
+   // print("capsules: " + capsules.toString());
+    List<Idioma> _list = List<Idioma>();
+    /* 
+    _list = capsules.map((model) => Idioma.fromJson(model)).toList(); */
+    var idioma = Idioma.fromJson(resBody);
+    _list.add(idioma);
+  //  print(_list);
+    //return idioma;
     return _list;
   }
 }
