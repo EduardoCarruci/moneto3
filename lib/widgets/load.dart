@@ -44,6 +44,6 @@ class Loads {
         elevation: 10,
         textColor: Colors.white,
         backgroundColor: color == 1 ? Colors.green : Colors.red,
-        timeInSeconds: 4);
+        timeInSeconds: 2);
   }
 }

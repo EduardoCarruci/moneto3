@@ -11,11 +11,11 @@ class ServicioGeografia {
   Loads loads;
 
   Future<List<Geografia>> getAll(String token) async {
-    String url = Constants.uri + 'api/Pais/GetListPais';
-
+    String url = Constants.uri + 'api/geografia/GetListPais';
+    
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-
+   // print(respuesta.body);
     List<Geografia> _list;
 
     var resBody = json.decode(respuesta.body);

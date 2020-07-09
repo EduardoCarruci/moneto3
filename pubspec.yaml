@@ -19,6 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -31,6 +34,11 @@ dependencies:
   flutter_rounded_date_picker: ^1.0.4
   datetime_picker_formfield: ^1.0.0
   grouped_buttons: ^1.0.4
+  provider: ^4.0.5+1
+  shared_preferences: ^0.5.7+3
+  google_map_location_picker: ^3.3.2
+  google_maps_place_picker: ^0.9.4
+  date_time_format: ^1.0.0+4
  
   
 

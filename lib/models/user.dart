@@ -21,6 +21,7 @@ class User {
   dynamic tipoIdentificacion;
   TipoCliente tipoCliente;
   List<Permiso> permisos;
+  
 
   User({
     this.id,

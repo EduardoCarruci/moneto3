@@ -6,6 +6,7 @@ import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoalarma/createTipoAlarma.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoalarma/editTipoAlarma.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoalarma/servicio.dart';
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 
 class ListTipoAlarma extends StatefulWidget {
   User user;
@@ -34,48 +35,53 @@ class _ListState extends State<ListTipoAlarma> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Tipo Alarma",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Tipo Alarma",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-                Navigator.push(
+           Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Crear_Tipo_Alarma(widget.user)));
+                      builder: (context) => Parametizacion(widget.user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: servicio.getAll(widget.user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<TipoAlarma>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Crear_Tipo_Alarma(widget.user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: servicio.getAll(widget.user.Token),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<TipoAlarma>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<TipoAlarma> list) {

@@ -1,18 +1,13 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:moneto2/models/genero.dart';
-import 'package:moneto2/models/geografia.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/genero/createGenero.dart';
 import 'package:moneto2/vistas/parametrizacion/genero/editGenero.dart';
 import 'package:moneto2/vistas/parametrizacion/genero/servicio.dart';
-import 'package:moneto2/vistas/parametrizacion/geografia/createGeografia.dart';
-import 'package:moneto2/vistas/parametrizacion/geografia/editGeografia.dart';
-
-
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 
 class ListGenero extends StatefulWidget {
   User user;
@@ -22,8 +17,7 @@ class ListGenero extends StatefulWidget {
   _ListState createState() => new _ListState();
 }
 
-class _ListState extends State<ListGenero>
-    with WidgetsBindingObserver {
+class _ListState extends State<ListGenero> with WidgetsBindingObserver {
   ServicioGenero servicio = new ServicioGenero();
   Genero item;
 
@@ -42,48 +36,54 @@ class _ListState extends State<ListGenero>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Genero",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Genero",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CreateGenero(widget.user)));
+                      builder: (context) => Parametizacion(widget.user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: servicio.getAll(widget.user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Genero>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateGenero(widget.user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: servicio.getAll(widget.user.Token),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Genero>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<Genero> list) {
@@ -96,17 +96,16 @@ class _ListState extends State<ListGenero>
             padding: const EdgeInsets.only(top: 8.0),
             child: GestureDetector(
               onTap: () {
-                  item = new Genero(
+                item = new Genero(
                   idGenero: list[index].idGenero,
                   nombre: list[index].nombre,
                   codigo: list[index].codigo,
                   //id: list[index].id,
                 );
-               Navigator.push(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            EditGenero(widget.user, item))); 
+                        builder: (context) => EditGenero(widget.user, item)));
               },
               child: Card(
                 child: Padding(

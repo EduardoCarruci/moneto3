@@ -6,6 +6,7 @@ import 'package:moneto2/models/categoriaCalendario.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/categoriaCalendario/listCategoriaCalendario.dart';
 import 'package:moneto2/widgets/load.dart';
 
 class EditCategoriaCalendario extends StatefulWidget {
@@ -29,7 +30,6 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
   void initState() {
     super.initState();
     _NombreController = new TextEditingController(text: widget.actual.nombre);
-  
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -41,82 +41,77 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneto",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Constants.darkPrimary,
-              title: Text(
-                "Editar Categoría Calendario",
-                style: TextStyle(fontSize: 18),
-              ),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              titleSpacing: 0,
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    edit();
-                  },
-                  iconSize: 20,
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    delete();
-                  },
-                  iconSize: 20,
-                ),
-              ],
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Constants.darkPrimary,
+            title: Text(
+              "Editar Categoría Calendario",
+              style: TextStyle(fontSize: 18),
             ),
-            body: SingleChildScrollView(
-                child: Container(
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.25
-                        : MediaQuery.of(context).size.height * 2,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(labelText: "Nombre"),
-                              keyboardType: TextInputType.text,
-
-                              controller: _NombreController,
-                              textInputAction: TextInputAction.next,
-                              onChanged: (va) {},
-
-                              // focusNode: _local,
-                            ),
-                            flex: 3,
-                          ),
-                          
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                      ),
-                    ))),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                    Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListCategoriaCalendario(widget.data_user)));
+              },
+            ),
+            titleSpacing: 0,
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  edit();
+                },
+                iconSize: 20,
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  delete();
+                },
+                iconSize: 20,
+              ),
+            ],
           ),
+          body: SingleChildScrollView(
+              child: Container(
+                  height:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? MediaQuery.of(context).size.height * 0.25
+                          : MediaQuery.of(context).size.height * 2,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Requerido';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(labelText: "Nombre"),
+                            keyboardType: TextInputType.text,
+
+                            controller: _NombreController,
+                            textInputAction: TextInputAction.next,
+                            onChanged: (va) {},
+
+                            // focusNode: _local,
+                          ),
+                          flex: 3,
+                        ),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                  ))),
         ));
   }
 
@@ -125,13 +120,26 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
       CategoriaCalendario item = new CategoriaCalendario();
 
       Map data = item.convertMapOP(
-        widget.actual.idCategoriaCalendario.toString(),
-        
-        _NombreController.text
-      );
+          widget.actual.idCategoriaCalendario.toString(),
+          _NombreController.text);
 
-      await servicio.edit(
-          widget.data_user.Token, data, widget.actual.idCategoriaCalendario.toString(), context, "api/CategoriaCalendario/Update/");
+     var success = await servicio.edit(
+          widget.data_user.Token,
+          data,
+          widget.actual.idCategoriaCalendario.toString(),
+          context,
+          "api/CategoriaCalendario/Update/");
+
+          
+      if (success == "200") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ListCategoriaCalendario(widget.data_user)));
+      }
+          
+          
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -139,21 +147,19 @@ class _Ed_CategoriaState extends State<EditCategoriaCalendario> {
   }
 
   delete() async {
-     if (_formKey.currentState.validate()) {
-     CategoriaCalendario item = new CategoriaCalendario();
-
-      
-      Map data = item.convertMapOP(
-        widget.actual.idCategoriaCalendario.toString(),
-       
-        _NombreController.text
-      );
+  
 
       await servicio.delete(
-          widget.data_user.Token, data, widget.actual.idCategoriaCalendario.toString(), context, "api/CategoriaCalendario/Delete/");
-    } else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    } 
+          widget.data_user.Token,
+          
+          widget.actual.idCategoriaCalendario.toString(),
+          context,
+          "api/CategoriaCalendario/Delete/");
+
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListCategoriaCalendario(widget.data_user)));
+  
   }
 }

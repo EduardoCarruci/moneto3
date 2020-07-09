@@ -6,7 +6,8 @@ class CuentaContablePadre {
   int idpadre;
   String codigo;
   String nombre;
-  int idcategoria;
+  int idtipoCategoria;
+  String tipoCategoria;
   CuentaContablePadre({
     this.id,
     this.idCuentaContable,
@@ -15,31 +16,36 @@ class CuentaContablePadre {
     this.idpadre,
     this.codigo,
     this.nombre,
-    this.idcategoria,
+    this.idtipoCategoria,
+    this.tipoCategoria,
   });
 
   //create
-  convertMap(String codigo, String nombre, int espadre, int idtipoCliente,int idcategoria) {
+  convertMap(String codigo, String nombre, int espadre, int idtipoCliente,
+      int idcategoria) {
     Map data = {
       "codigo": codigo,
       "nombre": nombre,
       "espadre": espadre,
       "idtipoCliente": idtipoCliente,
-      "idcategoria": idcategoria,
+      "idtipoCategoria": idcategoria,
     };
     return data;
   }
 
   //modificar
-    convertMapOP(String codigo, String nombre,int idcuentacontable) {
+  convertMapOP(String codigo, String nombre, int idcuentacontable,
+      int idcategoria, int espadre, int idpadre) {
     Map data = {
-       "codigo": codigo,
-        "nombre": nombre,
+      "codigo": codigo,
+      "nombre": nombre,
       "idcuentacontable": idcuentacontable,
-     
+      "idtipoCategoria": idcategoria,
+      "espadre": espadre,
+      "idpadre": idpadre,
     };
     return data;
-  } 
+  }
 
 //LEER
   CuentaContablePadre.fromJson(Map json)
@@ -49,6 +55,7 @@ class CuentaContablePadre {
         idtipoCliente = json['idtipoCliente'],
         idpadre = json['idpadre'],
         codigo = json['codigo'],
-           idcategoria = json['idcategoria'],
+        idtipoCategoria = json['idtipoCategoria'],
+        tipoCategoria = json['tipoCategoria'],
         nombre = json['nombre'];
 }

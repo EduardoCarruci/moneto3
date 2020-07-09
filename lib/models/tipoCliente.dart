@@ -5,8 +5,11 @@ class TipoCliente {
   String nombre;
   int idIdioma;
   String idioma;
-  int idColorAPP;
-  String ColorAPP;
+
+  int idColorApp;
+  String colorApp;
+  String colorHexaApp;
+
   int idMetadata;
   String idUsuario;
   int idCabeceraMetadata;
@@ -19,8 +22,9 @@ class TipoCliente {
     this.nombre,
     this.idIdioma,
     this.idioma,
-    this.idColorAPP,
-    this.ColorAPP,
+    this.idColorApp,
+    this.colorApp,
+    this.colorHexaApp,
     this.idMetadata,
     this.idUsuario,
     this.idCabeceraMetadata,
@@ -33,8 +37,9 @@ class TipoCliente {
         "nombre": nombre,
         "idIdioma": idIdioma,
         "idioma": idioma,
-        "idColorAPP": idColorAPP,
-        "ColorAPP": ColorAPP,
+        "idColorAPP": idColorApp,
+        "ColorAPP": colorApp,
+        "ColorHexaAPP": colorHexaApp,
         "idCabeceraMetadata": idCabeceraMetadata,
         "CabeceraMetadata": CabeceraMetadata,
       };
@@ -62,7 +67,7 @@ class TipoCliente {
       "idColorAPP": idColorAPP,
       "idCabeceraMetadata": idCabeceraMetadata,
     };
-
+    print(data);
     return data;
   }
 
@@ -76,8 +81,9 @@ class TipoCliente {
         nombre = json['nombre'],
         idIdioma = json['idIdioma'],
         idioma = json['idioma'],
-        idColorAPP = json['idColorAPP'],
-        ColorAPP = json['ColorAPP'],
+        idColorApp = json['idColorAPP'],
+        colorApp = json['ColorAPP'],
+        colorHexaApp = json['ColorHexaAPP'],
         idMetadata = json['idMetadata'],
         idCabeceraMetadata = json['idCabeceraMetadata'],
         CabeceraMetadata = json['CabeceraMetadata'];

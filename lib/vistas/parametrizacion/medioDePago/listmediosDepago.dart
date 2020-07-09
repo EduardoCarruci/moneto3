@@ -5,7 +5,7 @@ import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/medioDePago/editMedioDePago.dart';
 import 'package:moneto2/vistas/parametrizacion/medioDePago/servicio.dart';
 import 'createMedioDePago.dart';
-
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 class ListMedioDePago extends StatefulWidget {
   User user;
   ListMedioDePago(this.user);
@@ -33,48 +33,54 @@ class _ListMedioDePagoState extends State<ListMedioDePago>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Medio de Pago",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+       onWillPop: () async => false,
+          child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Medio de Pago",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CrearMedioDePago(widget.user)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Parametizacion(widget.user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: apiService.getAll(widget.user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<MedioDePago>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CrearMedioDePago(widget.user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: apiService.getAll(widget.user.Token),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<MedioDePago>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<MedioDePago> list) {

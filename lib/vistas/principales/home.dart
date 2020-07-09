@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:moneto2/models/user.dart';
+import 'package:moneto2/screens/screensHome/colors/editcolor.dart';
+import 'package:moneto2/screens/screensHome/colors/list.dart';
 import 'package:moneto2/screens/screensHome/cronograma/listCronograma.dart';
+import 'package:moneto2/screens/screensHome/iep/list.dart';
 import 'package:moneto2/screens/screensHome/tercero/list.dart';
+import 'package:moneto2/screens/screensHome/ui_chat/list_chats.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/principales/login.dart';
 import 'package:moneto2/vistas/principales/parametizacion.dart';
@@ -20,9 +24,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   List<bool> banderas = new List<bool>();
+  var colors;
 
   @override
   void initState() {
+    colors = widget.item.tipoCliente.colorHexaApp.split("#")[1];
+    print(colors);
+    colors = "0xff" + colors;
+    Constants.darkPrimary = Color(int.parse(colors));
+    setState(() {});
+
     WidgetsBinding.instance.addObserver(this);
 
     for (var i = 0; i < widget.item.permisos.length; i++) {
@@ -34,43 +45,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     }
     setState(() {});
 
-    /*  for (var i = 0; i < banderas.length; i++) {
-      print(banderas[0]);
-    } */
     super.initState();
-  }
-
-  _Rutas(int pos) {
-    if (pos == 0) {
-      /*Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Ingreso()));*/
-    } else if (pos == 1) {
-      /*Navigator.push(
-          context, MaterialPageRoute(builder: (context) => List_Egreso()));*/
-    } else if (pos == 2) {
-      /* Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Operaciones()));*/
-    } else if (pos == 3) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ListCronograma(widget.item)));
-    } else if (pos == 4) {
-      /*Navigator.push(
-          context, MaterialPageRoute(builder: (context) => List_alarma()));*/
-    } else if (pos == 5) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Parametizacion(widget.item)));
-    } else if (pos == 6) {
-    } else if (pos == 7) {
-      /*  Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => List_Terceros(widget.data_user)));*/
-    }
   }
 
   Future<bool> _onBackPressed() {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Seguro que quieres salir?'),
@@ -126,19 +107,29 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             centerTitle: true,
             actions: <Widget>[
               IconButton(
+                icon: Icon(Icons.color_lens),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditColor(widget.item),
+                      ));
+                },
+              ),
+              IconButton(
                 icon: Icon(Icons.notifications),
                 onPressed: () {
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 },
               ),
             ],
           ),
-          drawer: Drawer_admin(context),
+         // drawer: Drawer_admin(context),
           body: SingleChildScrollView(
             child: Container(
                 color: Colors.transparent,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+              /*   width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height, */
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -146,8 +137,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         "Egresos", Icons.people, banderas[1]),
                     RowsButtons("Presupuesto", Icons.grid_on, banderas[2],
                         "Cronograma", Icons.grid_on, banderas[3]),
-                    RowsButtons("Alarmas", Icons.timer, banderas[4],
-                        "Parametrización", Icons.settings, banderas[5]),
                     RowsButtons(
                         "Herramientas Colaborativas",
                         Icons.contact_mail,
@@ -155,6 +144,59 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         "Terceros",
                         Icons.people,
                         banderas[7]),
+                    /*     RowsButtons("Alarmas", Icons.timer, banderas[4],
+                        "Parametrización", Icons.settings, banderas[5]), */
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Visibility(
+                            visible: banderas[5],
+                            child: GestureDetector(
+                              onTap: () {
+                                rutas("Parametrización");
+                              },
+                              child: Container(
+                                //color: Colors.blue,
+                                height: 100.0,
+                                width: 100.0,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      radius: 35.0,
+                                      child: new Icon(
+                                        Icons.settings,
+                                        color: Colors.white,
+                                      ),
+                                      foregroundColor: Constants.darkPrimary,
+                                      // Color.fromRGBO(172, 44, 58, 1),
+                                      backgroundColor: Constants.darkPrimary,
+                                      // Color.fromRGBO(172, 44, 58, 1),
+                                    ),
+                                    Text(
+                                      "Parametrización",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 100.0,
+                            width: 100.0,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )),
           ),
@@ -191,9 +233,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         Icons,
                         color: Colors.white,
                       ),
-                      foregroundColor: Constants.Gra1,
+                      foregroundColor: Constants.darkPrimary,
                       // Color.fromRGBO(172, 44, 58, 1),
-                      backgroundColor: Constants.Gra1,
+                      backgroundColor: Constants.darkPrimary,
                       // Color.fromRGBO(172, 44, 58, 1),
                     ),
                     Text(
@@ -228,9 +270,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         Icons2,
                         color: Colors.white,
                       ),
-                      foregroundColor: Constants.Gra1,
+                      foregroundColor: Constants.darkPrimary,
                       // Color.fromRGBO(172, 44, 58, 1),
-                      backgroundColor: Constants.Gra1,
+                      backgroundColor: Constants.darkPrimary,
                       // Color.fromRGBO(172, 44, 58, 1),
                     ),
                     Text(
@@ -254,10 +296,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void rutas(String texto) {
     switch (texto) {
       case "Ingresos":
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => IEP(widget.item, "1")));
         break;
       case "Egresos":
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => IEP(widget.item, "2")));
         break;
       case "Presupuesto":
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => IEP(widget.item, "3")));
         break;
       case "Cronograma":
         Navigator.push(
@@ -274,6 +322,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 builder: (context) => Parametizacion(widget.item)));
         break;
       case "Herramientas Colaborativas":
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ListChats(widget.item)));
+
         break;
       case "Terceros":
         Navigator.push(context,

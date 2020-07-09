@@ -1,20 +1,24 @@
 class Geografia {
   String id;
-  /*  String Direccion;
-  String Region; */
   int idPais;
-  String descripcion;
-
-/*   String Cronograma;
-  String Operacion;
-  String TipoOperacion; */
+  String pais;
+  int idDepartamento;
+  String departamento;
+  int idMunicipio;
+  String municipio;
+  int idLocalidad;
+  String localidad;
 
   Geografia({
     this.id,
-    /*   this.Direccion,
-    this.Region, */
     this.idPais,
-    this.descripcion,
+    this.pais,
+    this.idDepartamento,
+    this.departamento,
+    this.idMunicipio,
+    this.municipio,
+    this.idLocalidad,
+    this.localidad,
   });
 
   //create
@@ -37,8 +41,11 @@ class Geografia {
   Geografia.fromJson(Map json)
       : id = json['id'],
         idPais = json['idPais'],
-        descripcion = json['descripcion'];
-  /*  idCategoria = json['idCategoria'],
-        subnivel = json['subnivel'],
-        ponderar = json['ponderar']; */
+        pais = json['Pais'],
+        idDepartamento = json['idDepartamento'],
+        departamento = json['Departamento'],
+        idMunicipio = json['idMunicipio'],
+        municipio = json['Municipio'],
+        idLocalidad = json['idLocalidad'],
+        localidad = json['Localidad'];
 }

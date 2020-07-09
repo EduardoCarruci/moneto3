@@ -4,6 +4,7 @@ import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/seguridad/editSeguridad.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/servicio.dart';
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 
 class ListSeguridad extends StatefulWidget {
   User data_user;
@@ -31,49 +32,55 @@ class _ListIDState extends State<ListSeguridad> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Acceso a Seguridad",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Acceso a Seguridad",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              /*    Navigator.push(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          CreateTipoCliente(widget.data_user))); */
+                      builder: (context) => Parametizacion(widget.data_user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: apiService.getAll(widget.data_user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<TipoCliente>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                /*    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CreateTipoCliente(widget.data_user))); */
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: apiService.getAll(widget.data_user.Token),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<TipoCliente>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<TipoCliente> list) {
@@ -86,17 +93,15 @@ class _ListIDState extends State<ListSeguridad> with WidgetsBindingObserver {
             padding: const EdgeInsets.only(top: 8.0),
             child: GestureDetector(
               onTap: () {
-                  item = new TipoCliente(
+                item = new TipoCliente(
                   idTipoCliente: list[index].idTipoCliente,
-                  
                 );
-              
-                
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            EditSeguridad(widget.data_user, item))); 
+                            EditSeguridad(widget.data_user, item)));
               },
               child: Card(
                 child: Padding(

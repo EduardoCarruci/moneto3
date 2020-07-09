@@ -7,6 +7,7 @@ import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/estadocivil/createstatusCivil.dart';
 import 'package:moneto2/vistas/parametrizacion/estadocivil/editEstadoCivil.dart';
 import 'package:moneto2/vistas/parametrizacion/estadocivil/servicio.dart';
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 
 class ListEstadoCivil extends StatefulWidget {
   User user;
@@ -36,48 +37,53 @@ class _ListState extends State<ListEstadoCivil>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Estado Civil",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,child:SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Estado Civil",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CreateEstadoCivil(widget.user)));
+                      builder: (context) => Parametizacion(widget.user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: servicio.getAll(widget.user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<EstadoCivil>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateEstadoCivil(widget.user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: servicio.getAll(widget.user.Token),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<EstadoCivil>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<EstadoCivil> list) {

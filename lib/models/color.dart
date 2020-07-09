@@ -3,6 +3,7 @@ class ColorApp {
   int idColorAPP;
   String nombre;
   String idScreen;
+  String colorHexa;
 
 
   ColorApp({
@@ -10,7 +11,19 @@ class ColorApp {
     this.idColorAPP,
     this.nombre,
     this.idScreen,
+    this.colorHexa
   });
+
+    convertMapOP(int idusuario, int idColorApp) {
+    Map data = {
+
+ 
+      "idusuario": idusuario,
+      "idColorApp": idColorApp,
+     
+    };
+    return data;
+  }
 
  
 //LEER
@@ -19,5 +32,6 @@ class ColorApp {
       : id = json['id'],
         idColorAPP = json['idColorAPP'],
         nombre = json['nombre'],
-        idScreen = json['idScreen'];
+        idScreen = json['idScreen'],
+        colorHexa= json['colorHexa'];
 }

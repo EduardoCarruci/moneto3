@@ -4,6 +4,7 @@ import 'package:moneto2/models/tipoCliente.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/seguridad/listseguridad.dart';
 import 'package:moneto2/vistas/parametrizacion/seguridad/servicio.dart';
 import 'package:moneto2/widgets/load.dart';
 
@@ -105,192 +106,190 @@ class _EditSeguridadState extends State<EditSeguridad> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return MaterialApp(
-        title: "Moneto2",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-            initialIndex: 0,
-            length: 2,
-            child: SafeArea(
-              child: Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Constants.darkPrimary,
-                  title: Text(
-                    "Editar Seguridad",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  titleSpacing: 0,
-                  centerTitle: true,
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        edit();
-                      },
-                      iconSize: 20,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        delete();
-                      },
-                      iconSize: 20,
-                    ),
-                  ],
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Constants.darkPrimary,
+              title: Text(
+                "Editar Seguridad",
+                style: TextStyle(fontSize: 18),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ListSeguridad(widget.data_user)));
+                },
+              ),
+              titleSpacing: 0,
+              centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    edit();
+                  },
+                  iconSize: 20,
                 ),
-                body: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                      child: Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Ingresos",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaIngresos,
-                                      onChanged: (newValue) {
-                                        banderaIngresos = newValue;
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    delete();
+                  },
+                  iconSize: 20,
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                  child: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Ingresos",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaIngresos,
+                                  onChanged: (newValue) {
+                                    banderaIngresos = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Egresos",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaEgresos,
-                                      onChanged: (newValue) {
-                                        banderaEgresos = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Egresos",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaEgresos,
+                                  onChanged: (newValue) {
+                                    banderaEgresos = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Presupuesto",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaPresupuesto,
-                                      onChanged: (newValue) {
-                                        banderaPresupuesto = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Presupuesto",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaPresupuesto,
+                                  onChanged: (newValue) {
+                                    banderaPresupuesto = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Cronograma",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaCronograma,
-                                      onChanged: (newValue) {
-                                        banderaCronograma = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Cronograma",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaCronograma,
+                                  onChanged: (newValue) {
+                                    banderaCronograma = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Alarmas",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaAlarmas,
-                                      onChanged: (newValue) {
-                                        banderaAlarmas = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Alarmas",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaAlarmas,
+                                  onChanged: (newValue) {
+                                    banderaAlarmas = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Parametrizacion",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaParametrizacion,
-                                      onChanged: (newValue) {
-                                        banderaParametrizacion = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Parametrizacion",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaParametrizacion,
+                                  onChanged: (newValue) {
+                                    banderaParametrizacion = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Herramientas",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaHerramientas,
-                                      onChanged: (newValue) {
-                                        banderaHerramientas = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Herramientas",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaHerramientas,
+                                  onChanged: (newValue) {
+                                    banderaHerramientas = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Terceros",
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
-                                    Checkbox(
-                                      value: banderaTerceros,
-                                      onChanged: (newValue) {
-                                        banderaTerceros = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Terceros",
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Checkbox(
+                                  value: banderaTerceros,
+                                  onChanged: (newValue) {
+                                    banderaTerceros = newValue;
 
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ]),
-                            ]),
-                      ),
-                    ),
+                                    setState(() {});
+                                  },
+                                ),
+                              ]),
+                        ]),
                   ),
                 ),
               ),
-            )));
+            ),
+          ),
+        ));
   }
 
   edit() async {
@@ -312,55 +311,53 @@ class _EditSeguridadState extends State<EditSeguridad> {
 
     print(banderaTerceros);
 
-    if (banderaIngresos){
+    if (banderaIngresos) {
       pivoteIngresos = 1;
-    }else {
-      pivoteIngresos =0;
+    } else {
+      pivoteIngresos = 0;
     }
 
-      if (banderaEgresos){
+    if (banderaEgresos) {
       pivoteEgresos = 1;
-    }else {
-      pivoteEgresos =0;
+    } else {
+      pivoteEgresos = 0;
     }
 
-      if (banderaPresupuesto){
+    if (banderaPresupuesto) {
       pivotePresupuesto = 1;
-    }else {
-      pivotePresupuesto =0;
+    } else {
+      pivotePresupuesto = 0;
     }
 
-      if (banderaCronograma){
+    if (banderaCronograma) {
       pivoteCronograma = 1;
-    }else {
-      pivoteCronograma =0;
+    } else {
+      pivoteCronograma = 0;
     }
 
-      if (banderaAlarmas){
+    if (banderaAlarmas) {
       pivoteAlarmas = 1;
-    }else {
-      pivoteAlarmas =0;
+    } else {
+      pivoteAlarmas = 0;
     }
 
-      if (banderaParametrizacion){
+    if (banderaParametrizacion) {
       pivoteParametrizacion = 1;
-    }else {
-      pivoteParametrizacion =0;
+    } else {
+      pivoteParametrizacion = 0;
     }
 
-      if (banderaHerramientas){
+    if (banderaHerramientas) {
       pivoteHerramientas = 1;
-    }else {
-      pivoteHerramientas =0;
+    } else {
+      pivoteHerramientas = 0;
     }
 
-      if (banderaTerceros){
-      pivoteTerceros= 1;
-    }else {
-      pivoteTerceros =0;
+    if (banderaTerceros) {
+      pivoteTerceros = 1;
+    } else {
+      pivoteTerceros = 0;
     }
-
-  
 
     List<Map<dynamic, dynamic>> lista = new List<Map<dynamic, dynamic>>();
     lista.add({
@@ -399,8 +396,12 @@ class _EditSeguridadState extends State<EditSeguridad> {
     print("\n");
     print(lista);
 
-     await service.editAvanzado(
-        widget.data_user.Token, lista, context, 'api/Seguridad/Update'); 
+    await service.editAvanzado(
+        widget.data_user.Token, lista, context, 'api/Seguridad/Update');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ListSeguridad(widget.data_user)));
   }
 
   delete() async {}

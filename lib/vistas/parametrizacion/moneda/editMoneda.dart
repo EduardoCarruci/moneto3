@@ -5,7 +5,7 @@ import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/widgets/load.dart';
-
+import 'package:moneto2/vistas/parametrizacion/moneda/listmonedas.dart';
 class Editar_Moneda extends StatefulWidget {
   User data_user;
   Moneda moneda;
@@ -44,15 +44,10 @@ class _PedidosState extends State<Editar_Moneda>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneda",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: Scaffold(
+    return  WillPopScope(
+            onWillPop: () async => false,
+                    child: Scaffold(
+           
             //key: myGlobals.scaffoldKey,
             appBar: AppBar(
               backgroundColor: Constants.darkPrimary,
@@ -64,6 +59,10 @@ class _PedidosState extends State<Editar_Moneda>
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   //Regresar();
+                   Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ListMoneda(widget.data_user)));
                 },
               ),
               titleSpacing: 0,
@@ -190,7 +189,7 @@ class _PedidosState extends State<Editar_Moneda>
               ),
             )),
           ),
-        ));
+        );
   }
 
   edit() async {
@@ -205,33 +204,30 @@ class _PedidosState extends State<Editar_Moneda>
 
       //OPERACIONES
 
-      await servicio.edit(
+      var success = await servicio.edit(
           widget.data_user.Token, data, widget.moneda.idMoneda.toString(),context,'api/Monedas/Update/');
+           if ( success=="200"){
+             Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListMoneda(widget.data_user)));
+           }
     }
     else {
       loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
+      loads.toast(2, "Completa los Campos");
     }
   }
 
   delete() async {
-    if (_formKey.currentState.validate()) {
-      Moneda moneda = new Moneda();
-
-      Map data = moneda.convertMapOP(
-          widget.moneda.idMoneda.toString(),
-          _CodigoController.text,
-          _NombreController.text,
-          _IdentificadorController.text);
-
-      //OPERACIONES
-
-      await servicio.delete(
-          widget.data_user.Token, data, widget.moneda.idMoneda.toString(),context,'api/Monedas/Delete/');
-    }
-    else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    }
+   
+    var success=  await servicio.delete(
+          widget.data_user.Token,  widget.moneda.idMoneda.toString(),context,'api/Monedas/Delete/');
+        
+           Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListMoneda(widget.data_user)));
+   
   }
 }

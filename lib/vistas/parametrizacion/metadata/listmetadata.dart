@@ -87,15 +87,16 @@ class _ListIDState extends State<ListMetadata> with WidgetsBindingObserver {
             child: GestureDetector(
               onTap: () {
               item = new Metadata(
-                  idMetadata: list[index].idMetadata,
+                  idCabeceraMetadata: list[index].idCabeceraMetadata,
                   codigo: list[index].codigo,
-                  nombreCampo: list[index].nombreCampo,
-                   nombreEquivalencia: list[index].nombreEquivalencia,
-                    nombreMetadata: list[index].nombreMetadata,
+                  nombre: list[index].nombre,
+                   template: list[index].template,
+                   
                 );
                  
                 Navigator.push(
                     context,
+                    
                     MaterialPageRoute(
                         builder: (context) =>
                             EditMetadata(widget.data_user, item))); 
@@ -107,7 +108,7 @@ class _ListIDState extends State<ListMetadata> with WidgetsBindingObserver {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        profile.nombreCampo,
+                        profile.nombre,
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ],

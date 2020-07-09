@@ -1,41 +1,37 @@
 class Metadata {
   int id;
-  int idMetadata;
+  int idCabeceraMetadata;
   String codigo;
-  String nombreMetadata;
-  String nombreCampo;
-  String nombreEquivalencia;
+  String nombre;
+ 
+  dynamic template;
 
   Metadata({
     this.id,
-    this.idMetadata,
+    this.idCabeceraMetadata,
     this.codigo,
-    this.nombreMetadata,
-    this.nombreCampo,
-    this.nombreEquivalencia,
+    this.nombre,
+   
+    this.template,
   });
 
   //create
-  convertMap(String codigo, String nombreMetadata, String nombreCampo,
-      String nombreEquivalencia) {
+  convertMap(String codigo, String nombreMetadata) {
     Map data = {
       "codigo": codigo,
-      "nombreMetadata": nombreMetadata,
-      "nombreCampo": nombreCampo,
-      "nombreEquivalencia": nombreEquivalencia,
+      "nombre": nombreMetadata,
+     
     };
     return data;
   }
 
   //modificar
-  convertMapOP(int idMetadata, String codigo, String nombreMetadata,
-      String nombreCampo, String nombreEquivalencia) {
+  convertMapOP(int idCabeceraMetadata,String codigo,String nombre) {
     Map data = {
-      "idMetadata": idMetadata,
+      "idCabeceraMetadata": idCabeceraMetadata,
       "codigo": codigo,
-      "nombreMetadata": nombreMetadata,
-      "nombreCampo": nombreCampo,
-      "nombreEquivalencia": nombreEquivalencia,
+      "nombre": nombre,
+     
     };
     return data;
   }
@@ -43,9 +39,9 @@ class Metadata {
 //LEER
   Metadata.fromJson(Map json)
       : id = json['id'],
-        idMetadata = json['idMetadata'],
+        idCabeceraMetadata = json['idCabeceraMetadata'],
         codigo = json['codigo'],
-        nombreMetadata = json['nombreMetadata'],
-        nombreCampo = json['nombreCampo'],
-        nombreEquivalencia = json['nombreEquivalencia'];
+        nombre = json['nombre'],
+        
+        template = json['template'];
 }

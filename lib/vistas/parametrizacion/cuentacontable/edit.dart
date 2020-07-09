@@ -11,7 +11,7 @@ import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/vistas/parametrizacion/cuentacontable/servicio.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/servicio.dart';
 import 'package:moneto2/widgets/load.dart';
-
+import 'package:moneto2/vistas/parametrizacion/cuentacontable/list.dart';
 class EditCuentaContable extends StatefulWidget {
   User user;
   CuentaContablePadre item;
@@ -45,6 +45,7 @@ class _CreateState extends State<EditCuentaContable>
     _NombreController.text = widget.item.nombre;
     _CodigoController.text = widget.item.codigo;
     idTipoCliente = widget.item.idtipoCliente;
+    value = widget.item.idtipoCategoria.toString();
     super.initState();
   }
 
@@ -56,67 +57,59 @@ class _CreateState extends State<EditCuentaContable>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneto2",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Constants.darkPrimary,
-              title: Text(
-                "Editar Cuenta Contable",
-                style: TextStyle(fontSize: 18),
-              ),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              titleSpacing: 0,
-              centerTitle: true,
-              actions: <Widget>[
-                Visibility(
-                  visible: bandera,
-                  child: IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      edit();
-                    },
-                    iconSize: 20,
-                  ),
-                ),
-                /*  IconButton(
-                  icon: Icon(Icons.clear),
+    return WillPopScope(
+      onWillPop: () async => false,child:Scaffold(
+          appBar: AppBar(
+            backgroundColor: Constants.darkPrimary,
+            title: Text(
+              "Editar Cuenta Contable",
+              style: TextStyle(fontSize: 18),
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+               Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ListCuentaContable(widget.user)));
+              },
+            ),
+            titleSpacing: 0,
+            centerTitle: true,
+            actions: <Widget>[
+              Visibility(
+                visible: bandera,
+                child: IconButton(
+                  icon: Icon(Icons.edit),
                   onPressed: () {
-                    delete();
+                    edit();
                   },
                   iconSize: 20,
-                ), */
-              ],
-            ),
-            body: SingleChildScrollView(
-                child: Container(
-              height: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 1.1
-                  : MediaQuery.of(context).size.height * 2,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1),
-                    child: Container(
-                        height: MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? MediaQuery.of(context).size.height * 0.4
-                            : MediaQuery.of(context).size.height * 0.4,
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
+                ),
+              ),
+              /*  IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () {
+                  delete();
+                },
+                iconSize: 20,
+              ), */
+            ],
+          ),
+          body: SingleChildScrollView(
+              child: Container(
+           
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 1),
+                  child: Container(
+                    
+                      child: Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                                                  child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
@@ -124,7 +117,7 @@ class _CreateState extends State<EditCuentaContable>
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      "Nombre: ",
+                                      "Cuenta Contable: ",
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Expanded(
@@ -249,41 +242,45 @@ class _CreateState extends State<EditCuentaContable>
                                   )
                                 ],
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text("Categoria: ",style: TextStyle(fontSize: 16.0)),
-                                  Expanded(
-                                    child: Container(
-                                      child: DropdownButton<String>(
+                              Visibility(
+                                 visible: bandera,
+                                                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Text("Categoria: ",style: TextStyle(fontSize: 16.0)),
+                                    Expanded(
+                                      child: Container(
+                                        child: DropdownButton<String>(
                             isExpanded: true,
                             items: [
-                              DropdownMenuItem<String>(
-                                child: Text('Ingresos'),
-                                value: '1',
-                              ),
-                              DropdownMenuItem<String>(
-                                child: Text('Egresos'),
-                                value: '2',
-                              ),
-                              DropdownMenuItem<String>(
-                                child: Text('Presupuestos'),
-                                value: '3',
-                              ),
+                                DropdownMenuItem<String>(
+                                  child: Text('Ingresos'),
+                                  value: '1',
+                                ),
+                                DropdownMenuItem<String>(
+                                  child: Text('Egresos'),
+                                  value: '2',
+                                ),
+                                DropdownMenuItem<String>(
+                                  child: Text('Presupuestos'),
+                                  value: '3',
+                                ),
                            
                             ],
                             onChanged: (String change) {
-                              value = change;
+                                value = change;
                              print(value);
-                              setState(() {});
+                                setState(() {});
                             },
                             value: value,
+
                           ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
 
                               SizedBox(
@@ -329,12 +326,12 @@ class _CreateState extends State<EditCuentaContable>
                               )
                             ],
                           ),
-                        )),
-                  ),
-                ],
-              ),
-            )),
-          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          )),
         ));
   }
 
@@ -345,14 +342,14 @@ class _CreateState extends State<EditCuentaContable>
       Map data = item.convertMapOP(
           _CodigoController.text.toString().trim(),
           _NombreController.text.toString().trim(),
-          widget.item.idCuentaContable);
+          widget.item.idCuentaContable,int.parse(value),1,null);
       print(data);
-      await servicio.edit(
+        await servicio.edit(
           widget.user.Token,
           data,
           widget.item.idCuentaContable.toString(),
           context,
-          'api/CuentaContable/Update/');
+          'api/CuentaContable/Update/');  
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -365,23 +362,32 @@ class _CreateState extends State<EditCuentaContable>
 
       Map data = item.convertMapOP(_CodigoController.text.toString().trim(),
           _NombreController.text.toString().trim(), 0, idpadre); */
+          //String codigo, String nombre,int idcuentacontable,int idcategoria,int espadre,int idpadre
       CuentaContablePadre item = new CuentaContablePadre();
       Map data = item.convertMapOP(
         _CodigoController.text.toString().trim(),
         _NombreController.text.toString().trim(),
-       idCuentaContableHijo
+       idCuentaContableHijo,
+       int.parse(value),
+        0,
+        widget.item.idCuentaContable       
       );
       print(data);
-      await servicio.edit(
+       await servicio.edit(
           widget.user.Token,
           data,
           widget.item.idCuentaContable.toString(),
           context,
-          'api/CuentaContable/Update/');
+          'api/CuentaContable/Update/'); 
+          
+  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListCuentaContable(widget.user)));
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
-    }
+    } 
   }
 
   createHijo() async {
@@ -400,6 +406,10 @@ class _CreateState extends State<EditCuentaContable>
           widget.item.idCuentaContable.toString(),
           context,
           'api/CuentaContable/Create/');
+           Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListCuentaContable(widget.user)));
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");

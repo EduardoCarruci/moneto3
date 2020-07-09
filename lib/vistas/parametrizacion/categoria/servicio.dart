@@ -33,20 +33,16 @@ class ServicioCategoria {
     print(url);
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-  //  print("RESPUESTA: " + respuesta.toString());
+  
 
     Map<String, dynamic> resBody = json.decode(respuesta.body);
-    //print("RESBODY: " + resBody.toString());
-   // var capsules = resBody;
 
-   // print("capsules: " + capsules.toString());
     List<Categoria> _list = List<Categoria>();
-    /* 
-    _list = capsules.map((model) => Idioma.fromJson(model)).toList(); */
+    
     var item = Categoria.fromJson(resBody);
     _list.add(item);
     print(_list);
-    //return idioma;
+   
     return _list;
   }
 

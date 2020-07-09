@@ -11,7 +11,7 @@ class ServicioEstadoCivil {
 
   Future<List<EstadoCivil>> getAll(String token) async {
     String url = Constants.uri + 'api/EstadoCivil/GetListEstadoCivil';
-
+      print(url);
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
 

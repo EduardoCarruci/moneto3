@@ -8,6 +8,8 @@ import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/widgets/load.dart';
 
+import 'listmetadata.dart';
+
 class EditMetadata extends StatefulWidget {
   User data_user;
 
@@ -25,9 +27,6 @@ class _Edit extends State<EditMetadata>
 
   TextEditingController _NombreController = new TextEditingController();
   TextEditingController _CodigoController = new TextEditingController();
-  TextEditingController _NombreCampoController = new TextEditingController();
-  TextEditingController _NombreEquivalenciaController =
-      new TextEditingController();
 
   ServicioParametrizacion servicio = new ServicioParametrizacion();
   Loads loads;
@@ -37,12 +36,8 @@ class _Edit extends State<EditMetadata>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
-    _NombreController =
-        new TextEditingController(text: widget.item.nombreMetadata);
-    _NombreCampoController =
-        new TextEditingController(text: widget.item.nombreCampo);
-    _NombreEquivalenciaController =
-        new TextEditingController(text: widget.item.nombreEquivalencia);
+    _NombreController = new TextEditingController(text: widget.item.nombre);
+
     _CodigoController = new TextEditingController(text: widget.item.codigo);
   }
 
@@ -156,56 +151,6 @@ class _Edit extends State<EditMetadata>
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration:
-                                    InputDecoration(labelText: "Nombre Campo"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _NombreCampoController,
-                                textInputAction: TextInputAction.done,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    labelText: "Nombre Equivalencia "),
-                                keyboardType: TextInputType.text,
-
-                                controller: _NombreEquivalenciaController,
-                                textInputAction: TextInputAction.done,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),
@@ -222,15 +167,21 @@ class _Edit extends State<EditMetadata>
 //int idMetadata, String codigo, String nombreMetadata,
       //String nombreCampo, String nombreEquivalencia
       Map data = nuevo.convertMapOP(
-        widget.item.idMetadata,
+        widget.item.idCabeceraMetadata,
         _CodigoController.text,
         _NombreController.text,
-        _NombreCampoController.text,
-        _NombreEquivalenciaController.text,
       );
 
-      await servicio.edit(widget.data_user.Token, data,
-          widget.item.idMetadata.toString(), context, 'api/Metadata/Update/');
+      await servicio.edit(
+          widget.data_user.Token,
+          data,
+          widget.item.idCabeceraMetadata.toString(),
+          context,
+          'api/CabeceraMetadatas/Update/');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListMetadata(widget.data_user)));
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -238,22 +189,14 @@ class _Edit extends State<EditMetadata>
   }
 
   delete() async {
-      if (_formKey.currentState.validate()) {
-      Metadata nuevo = new Metadata();
-
-       Map data = nuevo.convertMapOP(
-        widget.item.idMetadata,
-        _CodigoController.text,
-        _NombreController.text,
-        _NombreCampoController.text,
-        _NombreEquivalenciaController.text,
-      );
-
-      await servicio.delete(widget.data_user.Token, data,
-          widget.item.idMetadata.toString(), context,'api/Metadata/Delete/');
-    } else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    } 
+    await servicio.delete(
+        widget.data_user.Token,
+        widget.item.idCabeceraMetadata.toString(),
+        context,
+        'api/CabeceraMetadatas/Delete/');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ListMetadata(widget.data_user)));
   }
 }

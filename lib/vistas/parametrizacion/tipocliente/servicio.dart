@@ -10,25 +10,35 @@ class ServicioTipoCliente {
   Loads loads;
 
   Future<List<TipoCliente>> getAll(String token) async {
-    String url =
-        Constants.uri + 'api/TipoCliente/GetListTipoCliente';
+    String url = Constants.uri + 'api/TipoCliente/GetListTipoCliente';
 
     final respuesta =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
-  /*   print(url);
-    print(respuesta); */
-    List<TipoCliente> _list;
+
+     List<TipoCliente> _list;
 
     var resBody = json.decode(respuesta.body);
-
+    
     var capsules = resBody as List;
+    
+    _list = capsules.map((model) => TipoCliente.fromJson(model)).toList();
+    
+    
 
-    _list =
-        capsules.map((model) => TipoCliente.fromJson(model)).toList();
-      /*   print(resBody);
-        print(capsules);
-       */
-  //print(resBody);
-  return _list;
+/*     List<TipoCliente> item = List<TipoCliente>();
+    var list = json.decode(respuesta.body);
+    print(list);
+    for (Map x in list) {
+      item.add(TipoCliente.fromJson(x));
+ */
+      
+/*     Map<String, dynamic> resBody = json.decode(respuesta.body);
+
+    List<TipoCliente> _list = List<TipoCliente>();
+    
+    var item = TipoCliente.fromJson(resBody);
+    _list.add(item); */
+    
+    return _list;
   }
 }

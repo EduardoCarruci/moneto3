@@ -48,136 +48,139 @@ class _PedidosState extends State<Crear_Moneda>
         home: DefaultTabController(
           initialIndex: 0,
           length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Constants.darkPrimary,
-              title: Text(
-                "Añadir Moneda",
-                style: TextStyle(fontSize: 18),
-              ),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ListMoneda(widget.data_user)));
-                },
-              ),
-              titleSpacing: 0,
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.save),
-                  onPressed: () {
-                    _save();
-                  },
-                  iconSize: 20,
+          child: WillPopScope(
+              onWillPop: () async => false,
+                      child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Constants.darkPrimary,
+                title: Text(
+                  "Añadir Moneda",
+                  style: TextStyle(fontSize: 18),
                 ),
-              ],
-            ),
-            body: SingleChildScrollView(
-                child: Container(
-              height: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 1.1
-                  : MediaQuery.of(context).size.height * 2,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1),
-                    child: Container(
-                        height: MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? MediaQuery.of(context).size.height * 0.3
-                            : MediaQuery.of(context).size.height * 0.6,
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Requerido';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                            labelText: "Código"),
-                                        keyboardType: TextInputType.text,
-
-                                        controller: _CodigoController,
-                                        textInputAction: TextInputAction.next,
-                                        onChanged: (va) {},
-                                        // focusNode: _local,
-                                      ),
-                                      flex: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Requerido';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                            labelText: "Nombre"),
-                                        keyboardType: TextInputType.text,
-
-                                        controller: _NombreController,
-                                        textInputAction: TextInputAction.next,
-                                        onChanged: (va) {},
-                                        // focusNode: _local,
-                                      ),
-                                      flex: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Requerido';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                            labelText: "Identificador"),
-                                        keyboardType: TextInputType.text,
-
-                                        controller: _IdentificadorController,
-                                        textInputAction: TextInputAction.done,
-                                        onChanged: (va) {},
-                                        // focusNode: _local,
-                                      ),
-                                      flex: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
-                        )),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListMoneda(widget.data_user)));
+                  },
+                ),
+                titleSpacing: 0,
+                centerTitle: true,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.save),
+                    onPressed: () {
+                      _save();
+                    },
+                    iconSize: 20,
                   ),
                 ],
               ),
-            )),
+              body: SingleChildScrollView(
+                  child: Container(
+                height: MediaQuery.of(context).orientation == Orientation.portrait
+                    ? MediaQuery.of(context).size.height * 1.1
+                    : MediaQuery.of(context).size.height * 2,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 1),
+                      child: Container(
+                          height: MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? MediaQuery.of(context).size.height * 0.3
+                              : MediaQuery.of(context).size.height * 0.6,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Requerido';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Código"),
+                                          keyboardType: TextInputType.text,
+
+                                          controller: _CodigoController,
+                                          textInputAction: TextInputAction.next,
+                                          onChanged: (va) {},
+                                          // focusNode: _local,
+                                        ),
+                                        flex: 3,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Requerido';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Nombre"),
+                                          keyboardType: TextInputType.text,
+
+                                          controller: _NombreController,
+                                          textInputAction: TextInputAction.next,
+                                          onChanged: (va) {},
+                                          // focusNode: _local,
+                                        ),
+                                        flex: 3,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Requerido';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              labelText: "Identificador"),
+                                          keyboardType: TextInputType.text,
+
+                                          controller: _IdentificadorController,
+                                          textInputAction: TextInputAction.done,
+                                          onChanged: (va) {},
+                                          // focusNode: _local,
+                                        ),
+                                        flex: 3,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+              )),
+            ),
           ),
         ));
   }
@@ -190,10 +193,16 @@ class _PedidosState extends State<Crear_Moneda>
           _NombreController.text, _IdentificadorController.text);
 
       //al servicio
-      await servicio.create(widget.data_user.Token, data, context,'api/Monedas/Create');
+      var success =await servicio.create(widget.data_user.Token, data, context,'api/Monedas/Create');
+        if (success == "200"){
+           Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListMoneda(widget.data_user)));
+        }
     } else {
       loads = new Loads(context);
-      loads.toast(2, "Los campos son Invalidos");
+      loads.toast(2, "Completa los Campos");
     }
   }
 }

@@ -6,6 +6,7 @@ import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/widgets/load.dart';
+import 'package:moneto2/vistas/parametrizacion/periodicidad/listperiodicidad.dart';
 
 class Crear_periodicidad extends StatefulWidget {
   User data_user;
@@ -64,7 +65,11 @@ class PedidosState extends State<Crear_periodicidad>
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    //Regresar();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ListPeriodicidad(widget.data_user)));
                   },
                 ),
                 titleSpacing: 0,
@@ -203,7 +208,14 @@ class PedidosState extends State<Crear_periodicidad>
           _NombreController.text, _EquivalenciaController.text);
 
       //al servicio
-      await servicio.create(widget.data_user.Token, data, context,'api/Periodicidad/Create');
+      var success = await servicio.create(
+          widget.data_user.Token, data, context, 'api/Periodicidad/Create');
+      if (success == "200") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ListPeriodicidad(widget.data_user)));
+      }
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son Invalidos");

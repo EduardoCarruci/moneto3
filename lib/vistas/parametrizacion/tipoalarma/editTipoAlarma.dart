@@ -10,6 +10,7 @@ import 'package:moneto2/models/tipoAlarma.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/tipoalarma/listTipoAlarma.dart';
 import 'package:moneto2/widgets/load.dart';
 
 class EditTipoAlarma extends StatefulWidget {
@@ -48,117 +49,114 @@ class _EdTipoAlarmaState extends State<EditTipoAlarma> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneto2",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Constants.darkPrimary,
-              title: Text(
-                "Editar Tipos de Alarmas",
-                style: TextStyle(fontSize: 18),
-              ),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              titleSpacing: 0,
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    edit();
-                  },
-                  iconSize: 20,
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    delete();
-                  },
-                  iconSize: 20,
-                ),
-              ],
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Constants.darkPrimary,
+            title: Text(
+              "Editar Tipos de Alarmas",
+              style: TextStyle(fontSize: 18),
             ),
-            body: SingleChildScrollView(
-                child: Container(
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.25
-                        : MediaQuery.of(context).size.height * 2,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(labelText: "Nombre"),
-                              keyboardType: TextInputType.text,
-
-                              controller: _NombreController,
-                              textInputAction: TextInputAction.next,
-                              onChanged: (va) {},
-                              
-                              // focusNode: _local,
-                            ),
-                            flex: 3,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Requerido';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(labelText: "Código "),
-                              keyboardType: TextInputType.text,
-
-                              controller: _CodigoController,
-                              textInputAction: TextInputAction.done,
-                              onChanged: (va) {},
-
-                            
-
-                              // focusNode: _local,
-                            ),
-                            flex: 3,
-                          ),
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                      ),
-                    ))),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ListTipoAlarma(widget.data_user)));
+              },
+            ),
+            titleSpacing: 0,
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  edit();
+                },
+                iconSize: 20,
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  delete();
+                },
+                iconSize: 20,
+              ),
+            ],
           ),
+          body: SingleChildScrollView(
+              child: Container(
+                  height: 200,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Requerido';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(labelText: "Nombre"),
+                            keyboardType: TextInputType.text,
+
+                            controller: _NombreController,
+                            textInputAction: TextInputAction.next,
+                            onChanged: (va) {},
+
+                            // focusNode: _local,
+                          ),
+                          flex: 3,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Requerido';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(labelText: "Código "),
+                            keyboardType: TextInputType.text,
+
+                            controller: _CodigoController,
+                            textInputAction: TextInputAction.done,
+                            onChanged: (va) {},
+
+                            // focusNode: _local,
+                          ),
+                          flex: 3,
+                        ),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                  ))),
         ));
   }
 
-    edit() async {
+  edit() async {
     if (_formKey.currentState.validate()) {
       TipoAlarma item = new TipoAlarma();
 
-      Map data = item.convertMapOP(
-        widget.m_tipo_alarma.idTipoAlarma.toString(),
-        _CodigoController.text,
-        _NombreController.text
-      );
+      Map data = item.convertMapOP(widget.m_tipo_alarma.idTipoAlarma.toString(),
+          _CodigoController.text, _NombreController.text);
 
-      await servicio.edit(widget.data_user.Token, data,
-          widget.m_tipo_alarma.idTipoAlarma.toString(), context,'api/TipoAlarma/Update/');
+      await servicio.edit(
+          widget.data_user.Token,
+          data,
+          widget.m_tipo_alarma.idTipoAlarma.toString(),
+          context,
+          'api/TipoAlarma/Update/');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListTipoAlarma(widget.data_user)));
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -166,20 +164,14 @@ class _EdTipoAlarmaState extends State<EditTipoAlarma> {
   }
 
   delete() async {
-    if (_formKey.currentState.validate()) {
-      TipoAlarma item = new TipoAlarma();
-
-       Map data = item.convertMapOP(
+    await servicio.delete(
+        widget.data_user.Token,
         widget.m_tipo_alarma.idTipoAlarma.toString(),
-        _CodigoController.text,
-        _NombreController.text
-      );
-
-      await servicio.delete(widget.data_user.Token, data,
-            widget.m_tipo_alarma.idTipoAlarma.toString(), context,'api/TipoAlarma/Delete/');
-    } else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    }
+        context,
+        'api/TipoAlarma/Delete/');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ListTipoAlarma(widget.data_user)));
   }
 }

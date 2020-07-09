@@ -34,10 +34,9 @@ class Estrato {
     return data;
   }
 
-//LEER
+
   Estrato.fromJson(Map json)
       : idEstrato = json['idEstrato'],
         codigo = json['codigo'],
-        // nombreCampo = json['nombreCampo'],
         nombre = json['nombre'];
 }

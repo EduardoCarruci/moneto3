@@ -6,6 +6,7 @@ import 'package:moneto2/models/periodicidad.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
+import 'package:moneto2/vistas/parametrizacion/idiomas/listsIdiomas.dart';
 import 'package:moneto2/widgets/load.dart';
 
 class EditIdioma extends StatefulWidget {
@@ -19,8 +20,8 @@ class EditIdioma extends StatefulWidget {
 class _EditState extends State<EditIdioma>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final format = DateFormat("yyyy-MM-dd");
-  TextEditingController _descripcionController  = new TextEditingController();
-  TextEditingController _nombreCampoController  = new TextEditingController();
+  TextEditingController _descripcionController = new TextEditingController();
+  TextEditingController _nombreCampoController = new TextEditingController();
   TextEditingController _equivalenciaController = new TextEditingController();
 
   ServicioParametrizacion servicio = new ServicioParametrizacion();
@@ -33,8 +34,8 @@ class _EditState extends State<EditIdioma>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
-    _equivalenciaController = new TextEditingController(
-        text: widget.idioma.equivalencia.toString());
+    _equivalenciaController =
+        new TextEditingController(text: widget.idioma.equivalencia.toString());
     _nombreCampoController =
         new TextEditingController(text: widget.idioma.nombreCampo);
     _descripcionController =
@@ -43,143 +44,135 @@ class _EditState extends State<EditIdioma>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneto2",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Constants.darkPrimary,
-                title: Text(
-                  "Editar Idioma",
-                  style: TextStyle(fontSize: 18),
-                ),
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                   Navigator.pop(context);
-                  },
-                ),
-                titleSpacing: 0,
-                //centerTitle: true,
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      edit();
-                    },
-                    iconSize: 20,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                    delete();
-                    },
-                    iconSize: 20,
-                  ),
-                ],
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Constants.darkPrimary,
+              title: Text(
+                "Editar Idioma",
+                style: TextStyle(fontSize: 18),
               ),
-              body: SingleChildScrollView(
-                  child: Container(
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.5
-                        : MediaQuery.of(context).size.height * 2,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                  
-
-                                decoration:
-                                    InputDecoration(labelText: "Descripcion"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _descripcionController,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration:
-                                    InputDecoration(labelText: "Nombre Campo"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _nombreCampoController,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                  
- 
-                                decoration:
-                                    InputDecoration(labelText: "Equivalencia"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _equivalenciaController,
-                                textInputAction: TextInputAction.done,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListIdioma(widget.data_user)));
+                },
+              ),
+              titleSpacing: 0,
+              //centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    edit();
+                  },
+                  iconSize: 20,
                 ),
-              )),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    delete();
+                  },
+                  iconSize: 20,
+                ),
+              ],
             ),
+            body: SingleChildScrollView(
+                child: Container(
+              height: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? MediaQuery.of(context).size.height * 0.5
+                  : MediaQuery.of(context).size.height * 2,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Requerido';
+                                }
+                                return null;
+                              },
+
+                              decoration:
+                                  InputDecoration(labelText: "Descripcion"),
+                              keyboardType: TextInputType.text,
+
+                              controller: _descripcionController,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (va) {},
+                              // focusNode: _local,
+                            ),
+                            flex: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Requerido';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(labelText: "Idioma"),
+                              keyboardType: TextInputType.text,
+
+                              controller: _nombreCampoController,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (va) {},
+                              // focusNode: _local,
+                            ),
+                            flex: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Requerido';
+                                }
+                                return null;
+                              },
+
+                              decoration:
+                                  InputDecoration(labelText: "Equivalencia"),
+                              keyboardType: TextInputType.text,
+
+                              controller: _equivalenciaController,
+                              textInputAction: TextInputAction.done,
+                              onChanged: (va) {},
+                              // focusNode: _local,
+                            ),
+                            flex: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+              ),
+            )),
           ),
         ));
   }
@@ -190,16 +183,18 @@ class _EditState extends State<EditIdioma>
 
       Map data = item.convertMapOP(
           widget.idioma.idIdioma.toString(),
-           _descripcionController .text,
-          _nombreCampoController .text,
-        
-         
-         _equivalenciaController.text);
+          _descripcionController.text,
+          _nombreCampoController.text,
+          _equivalenciaController.text);
 
-      await servicio.edit(widget.data_user.Token, data,
-          widget.idioma.idIdioma.toString(), context,'api/Idioma/Update/');
-
-
+      var success = await servicio.edit(widget.data_user.Token, data,
+          widget.idioma.idIdioma.toString(), context, 'api/Idioma/Update/');
+      if (success == "200") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ListIdioma(widget.data_user)));
+      }
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -207,21 +202,10 @@ class _EditState extends State<EditIdioma>
   }
 
   delete() async {
-   if (_formKey.currentState.validate()) {
-      Periodicidad item = new Periodicidad();
- Map data = item.convertMapOP(
-          widget.idioma.idIdioma.toString(),
-         _descripcionController .text,
-         _nombreCampoController .text,
-         _equivalenciaController.text);
+    await servicio.delete(widget.data_user.Token,
+        widget.idioma.idIdioma.toString(), context, 'api/Idioma/Delete/');
 
-      await servicio.delete(widget.data_user.Token, data,
-          widget.idioma.idIdioma.toString(), context,'api/Idioma/Delete/');
-
-
-    } else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    }
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ListIdioma(widget.data_user)));
   }
 }

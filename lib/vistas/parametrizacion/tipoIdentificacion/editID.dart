@@ -6,6 +6,7 @@ import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/widgets/load.dart';
+import 'package:moneto2/vistas/parametrizacion/tipoIdentificacion/listID.dart';
 
 class Editar_T_identificacion extends StatefulWidget {
   User data_user;
@@ -42,114 +43,107 @@ class _Editar_T_identificacionState extends State<Editar_T_identificacion>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Moneto",
-        theme: ThemeData(
-            primarySwatch: Colors.deepPurple, cursorColor: Colors.deepPurple),
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Constants.darkPrimary,
-                title: Text(
-                  "Editar Identificacion",
-                  style: TextStyle(fontSize: 18),
-                ),
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                titleSpacing: 0,
-                //centerTitle: true,
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      update();
-                    },
-                    iconSize: 20,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      delete();
-                    },
-                    iconSize: 20,
-                  ),
-                ],
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Constants.darkPrimary,
+              title: Text(
+                "Editar Identificacion",
+                style: TextStyle(fontSize: 18),
               ),
-              body: SingleChildScrollView(
-                  child: Container(
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.3
-                        : MediaQuery.of(context).size.height * 0.6,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration:
-                                    InputDecoration(labelText: "Código"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _CodigoController,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Requerido';
-                                  }
-                                  return null;
-                                },
-                                decoration:
-                                    InputDecoration(labelText: "Nombre"),
-                                keyboardType: TextInputType.text,
-
-                                controller: _NombreController,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (va) {},
-                                // focusNode: _local,
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListID(widget.data_user)));
+                },
+              ),
+              titleSpacing: 0,
+              //centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    update();
+                  },
+                  iconSize: 20,
                 ),
-              )),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    delete();
+                  },
+                  iconSize: 20,
+                ),
+              ],
             ),
+            body: SingleChildScrollView(
+                child: Container(
+              height: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? MediaQuery.of(context).size.height * 0.3
+                  : MediaQuery.of(context).size.height * 0.6,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Requerido';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(labelText: "Código"),
+                              keyboardType: TextInputType.text,
+
+                              controller: _CodigoController,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (va) {},
+                              // focusNode: _local,
+                            ),
+                            flex: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Requerido';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(labelText: "Nombre"),
+                              keyboardType: TextInputType.text,
+
+                              controller: _NombreController,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (va) {},
+                              // focusNode: _local,
+                            ),
+                            flex: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+              ),
+            )),
           ),
         ));
   }
@@ -164,8 +158,16 @@ class _Editar_T_identificacionState extends State<Editar_T_identificacion>
         _NombreController.text,
       );
 
-      await servicio.edit(widget.data_user.Token, data,
-          widget.item.idTipoIdentificacion.toString(), context,'api/TipoIdentificacion/Update/');
+      var success =await servicio.edit(
+          widget.data_user.Token,
+          data,
+          widget.item.idTipoIdentificacion.toString(),
+          context,
+          'api/TipoIdentificacion/Update/');
+      if (success == "200") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ListID(widget.data_user)));
+      }
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son invalidos");
@@ -173,20 +175,12 @@ class _Editar_T_identificacionState extends State<Editar_T_identificacion>
   }
 
   delete() async {
-    if (_formKey.currentState.validate()) {
-      TipoIdentificacion nuevo = new TipoIdentificacion();
-
-      Map data = nuevo.convertMapOP(
+    await servicio.delete(
+        widget.data_user.Token,
         widget.item.idTipoIdentificacion.toString(),
-        _CodigoController.text,
-        _NombreController.text,
-      );
-
-      await servicio.delete(widget.data_user.Token, data,
-          widget.item.idTipoIdentificacion.toString(), context,'api/TipoIdentificacion/Delete/');
-    } else {
-      loads = new Loads(context);
-      loads.toast(2, "Los campos son invalidos");
-    }
+        context,
+        'api/TipoIdentificacion/Delete/');
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ListID(widget.data_user)));
   }
 }

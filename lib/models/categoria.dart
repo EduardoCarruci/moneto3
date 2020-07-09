@@ -23,8 +23,7 @@ class Categoria {
     Map data = {
       "codigo": codigo,
       "nombre": nombre,
-     // "subnivel": subnivel,
-     // "ponderar": ponderar,
+    
     };
     return data;
   }

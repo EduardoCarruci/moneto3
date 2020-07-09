@@ -32,16 +32,16 @@ class _Drawer_repartidorState extends State<Drawer_admin> {
 
 
         children: <Widget>[
-          Container(
+         /*  Container(
             height: MediaQuery.of(context).size.height/2.7,
             width: MediaQuery.of(context).size.width,
            margin: EdgeInsets.only(top: 5),
             decoration: BoxDecoration(
                 color: Constants.darkPrimary,
                 image: DecorationImage(image: AssetImage("assets/Logo.png"),fit: BoxFit.fill )),
-          ),
+          ), */
 
-          Column(
+         /*  Column(
             children: <Widget>[
               MaterialButton(
                 //minWidth: MediaQuery.of(context).size.width,
@@ -83,7 +83,7 @@ class _Drawer_repartidorState extends State<Drawer_admin> {
 
             ],
           ),
-
+ */
         ],
       ),
 elevation: 20,

@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneto2/models/metadata.dart';
-import 'package:moneto2/models/tipoDeIdentificacion.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/utils/servicioParametrizacion.dart';
 import 'package:moneto2/widgets/load.dart';
+
+import 'listmetadata.dart';
 
 class CreateMetadata extends StatefulWidget {
   User data_user;
@@ -22,8 +23,7 @@ class _Create extends State<CreateMetadata>
 
   TextEditingController _NombreController = new TextEditingController();
   TextEditingController _CodigoController = new TextEditingController();
-   TextEditingController _NombreCampoController = new TextEditingController();
-  TextEditingController _NombreEquivalenciaController = new TextEditingController();
+   
 
 
   ServicioParametrizacion servicio = new ServicioParametrizacion();
@@ -74,7 +74,7 @@ class _Create extends State<CreateMetadata>
                   IconButton(
                     icon: Icon(Icons.save),
                     onPressed: () {
-                      save();
+                      save(context);
                     },
                     iconSize: 20,
                   ),
@@ -153,57 +153,8 @@ class _Create extends State<CreateMetadata>
                                   ),
                                 ),
 
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: TextFormField(
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Requerido';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                              labelText: "Nombre Campo"),
-                                          keyboardType: TextInputType.text,
+                              
 
-                                          controller: _NombreCampoController,
-                                          textInputAction: TextInputAction.done,
-                                          onChanged: (va) {},
-                                          // focusNode: _local,
-                                        ),
-                                        flex: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: TextFormField(
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Requerido';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                              labelText: "Nombre Equivalencia "),
-                                          keyboardType: TextInputType.text,
-
-                                          controller: _NombreEquivalenciaController,
-                                          textInputAction: TextInputAction.done,
-                                          onChanged: (va) {},
-                                          // focusNode: _local,
-                                        ),
-                                        flex: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ],
                               crossAxisAlignment: CrossAxisAlignment.start,
                             ),
@@ -218,15 +169,22 @@ class _Create extends State<CreateMetadata>
   }
 
 //String codigo, String nombreMetadata,String nombreCampo, String nombreEquivalencia
-   save() async {
+   save(context) async {
     if (_formKey.currentState.validate()) {
       Metadata nuevo = new Metadata();
 
       Map data = nuevo.convertMap(_CodigoController.text,
-          _NombreController.text,_NombreCampoController.text,_NombreEquivalenciaController.text);
+          _NombreController.text);
 
       //al servicio
-      await servicio.create(widget.data_user.Token, data, context,'api/Metadata/Create');
+       var v = await servicio.create(widget.data_user.Token, data, context,'api/CabeceraMetadatas/Create');
+      
+        Navigator.push(
+                    context,
+                    
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ListMetadata(widget.data_user))); 
     } else {
       loads = new Loads(context);
       loads.toast(2, "Los campos son Invalidos");

@@ -3,7 +3,8 @@ import 'package:moneto2/models/moneda.dart';
 import 'package:moneto2/models/user.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/moneda/servicio.dart';
-
+import 'package:moneto2/vistas/principales/login.dart';
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 import 'createMoneda.dart';
 import 'editMoneda.dart';
 
@@ -33,47 +34,53 @@ class _ListMonedaState extends State<ListMoneda> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Monedas",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+        onWillPop: () async => false,
+          child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Monedas",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Crear_Moneda(widget.data_user)));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Parametizacion(widget.data_user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: apiService.getMonedas(widget.data_user.Token),
-        builder: (BuildContext context, AsyncSnapshot<List<Moneda>> snapshot) {
-          if (snapshot.hasData ) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Crear_Moneda(widget.data_user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: apiService.getMonedas(widget.data_user.Token),
+          builder: (BuildContext context, AsyncSnapshot<List<Moneda>> snapshot) {
+            if (snapshot.hasData ) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<Moneda> monedaCoin) {

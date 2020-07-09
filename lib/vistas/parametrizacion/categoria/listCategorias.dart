@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:moneto2/models/categoria.dart';
 import 'package:moneto2/models/user.dart';
-
+import 'package:moneto2/vistas/principales/parametizacion.dart';
 import 'package:moneto2/utils/Const.dart';
 import 'package:moneto2/vistas/parametrizacion/categoria/createCategoria.dart';
 import 'package:moneto2/vistas/parametrizacion/categoria/editCategoria.dart';
@@ -41,48 +41,54 @@ class _List_categoriaState extends State<List_categoria>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Categorias",
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,
+          child: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Categorias",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateCategoria(widget.user)));
+             Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Parametizacion(widget.user)));
             },
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: servicio.getAll(widget.user.Token),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildListView(snapshot.data);
-          } else {
-            return Center(
-              //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateCategoria(widget.user)));
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: servicio.getAll(widget.user.Token),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildListView(snapshot.data);
+            } else {
+              return Center(
+                //ACA DEBERIA ESTAR EL EVENTO DE CARGAR LAS IMAGENES
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Widget _buildListView(List<Categoria> list) {
@@ -95,11 +101,8 @@ class _List_categoriaState extends State<List_categoria>
             padding: const EdgeInsets.only(top: 8.0),
             child: GestureDetector(
               onTap: () {
-                print(item.codigo);
-                print(item.nombre);
-              /*   print(item.ponderar);
-                print(item.subnivel); */
-
+              
+            
                 item = new Categoria(
                   id: list[index].id,
                   codigo: list[index].codigo,
@@ -108,6 +111,8 @@ class _List_categoriaState extends State<List_categoria>
                   ponderar: list[index].ponderar, */
                 );
                 print(item);
+                  print(item.codigo);
+                print(item.nombre);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -135,4 +140,6 @@ class _List_categoriaState extends State<List_categoria>
       ),
     );
   }
+
+
 }

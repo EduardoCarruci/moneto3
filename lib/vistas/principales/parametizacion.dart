@@ -24,6 +24,8 @@ import 'package:moneto2/vistas/parametrizacion/tipoIdentificacion/listID.dart';
 import 'package:moneto2/vistas/parametrizacion/tipoalarma/listTipoAlarma.dart';
 import 'package:moneto2/vistas/parametrizacion/tipocliente/list.dart';
 
+import 'home.dart';
+
 class Parametizacion extends StatefulWidget {
   User data_user;
   Parametizacion(this.data_user);
@@ -48,16 +50,16 @@ class ParametizacionState extends State<Parametizacion>
     "Periodicidad",
     "Medio de pago",
     "Categoría",
-    "Geografía",
+   // "Geografía",
     "Tipo de Identificación",
     "Tipo cliente",
-    "Cuentas contables",
+   // "Cuentas contables",
     "Franquicia",
     "Categoría Calendario",
-    "Tipo Alarma",
+ //   "Tipo Alarma",
     "Idioma",
-    "Colores",
-    "Metadata",
+  //  "Colores",
+  //  "Metadata",
     "Genero",
     "Estrato",
     "Estado Civil",
@@ -86,6 +88,7 @@ class ParametizacionState extends State<Parametizacion>
 
   @override
   void initState() {
+   
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -101,88 +104,76 @@ class ParametizacionState extends State<Parametizacion>
           context,
           MaterialPageRoute(
               builder: (context) => ListPeriodicidad(widget.data_user)));
-    } else if (pos == 2) {
+    } 
+
+    else if (pos == 2) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ListMedioDePago(widget.data_user)));
-    } else if (pos == 3) {
+    } 
+    else if (pos == 3) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => List_categoria(widget.data_user)));
-    } else if (pos == 4) {
+    } 
+    else if (pos == 4) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ListGeografia(widget.data_user)));
-    } else if (pos == 5) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ListID(widget.data_user)));
-    }
-     else if (pos == 7) { Navigator.push(context, MaterialPageRoute(builder: (context) => ListCuentaContable(widget.data_user)));}
-    else if (pos == 8) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListFranquicia(widget.data_user)));
-    } else if (pos == 9) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListCategoriaCalendario(widget.data_user)));
-    } else if (pos == 10) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListTipoAlarma(widget.data_user)));
-    } else if (pos == 11) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListIdioma(widget.data_user)));
-    } else if (pos == 13) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListMetadata(widget.data_user)));
-    } else if (pos == 14) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListGenero(widget.data_user)));
-    } else if (pos == 15) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListEstrato(widget.data_user)));
-    } else if (pos == 16) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListEstadoCivil(widget.data_user)));
-    } else if (pos == 6) {
+              builder: (context) => ListID(widget.data_user)));
+    } 
+    else if (pos == 5) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ListTipoCliente(widget.data_user)));
-    }else if (pos == 17) {
+    } 
+    else if (pos == 6) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListFranquicia(widget.data_user)));
+    } 
+    else if (pos == 7) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListCategoriaCalendario(widget.data_user)));
+    } 
+    else if (pos == 8) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListIdioma(widget.data_user)));
+    } 
+    else if (pos == 9) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListGenero(widget.data_user)));
+    } 
+    else if (pos == 10) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListEstrato(widget.data_user)));
+    } 
+    else if (pos == 11) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListEstadoCivil(widget.data_user)));
+    } 
+    else if (pos == 12) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ListSeguridad(widget.data_user)));
-    }else{
+    } 
 
-    }
-
-    /*              
-    
-    
- 
-    else if (pos == 14) { Navigator.push(context, MaterialPageRoute(builder: (context) => List_Genero(widget.data_user)));}
-    }
- 
-    else if (pos == 7) { Navigator.push(context, MaterialPageRoute(builder: (context) => Crear_Contable()));} */
+  
   }
 
   Future<void> _Dialo_finalizar_examen(
@@ -254,75 +245,87 @@ class ParametizacionState extends State<Parametizacion>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Constants.darkPrimary,
-        title: Text(
-          "Parametrización",
-          style: TextStyle(fontSize: 18),
+    return WillPopScope(
+      onWillPop: ()async => false,
+          child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Constants.darkPrimary,
+          title: Text(
+            "Parametrización",
+            style: TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Home(widget.data_user)));
+              },
+            ),
         ),
-        centerTitle: true,
-      ),
-      body: Container(
-        color: Colors.transparent,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-        child: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount:
-              MediaQuery.of(context).orientation == Orientation.portrait
-                  ? 3
-                  : 4,
-          childAspectRatio: 0.9,
-          // Generate 100 widgets that display their index in the List.
-          children: List.generate(_Titulo_boton.length, (index) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                    child: GestureDetector(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 35.0,
-                              child: new Icon(
-                                _Iconos[index],
-                                color: Colors.white,
-                              ),
-                              foregroundColor: Constants.Gra1,
-                              // Color.fromRGBO(172, 44, 58, 1),
-                              backgroundColor: Constants.Gra1,
-                              // Color.fromRGBO(172, 44, 58, 1),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text(
-                                _Titulo_boton[index],
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+        body: Container(
+          color: Colors.transparent,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          child: GridView.count(
+            // Create a grid with 2 columns. If you change the scrollDirection to
+            // horizontal, this produces 2 rows.
+            crossAxisCount:
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? 3
+                    : 4,
+            childAspectRatio: 0.9,
+            // Generate 100 widgets that display their index in the List.
+            children: List.generate(_Titulo_boton.length, (index) {
+              return Column(
+                children: <Widget>[
+                  Expanded(
+                      child: GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 35.0,
+                                child: new Icon(
+                                  _Iconos[index],
+                                  color: Colors.white,
                                 ),
-                                textAlign: TextAlign.center,
+                                foregroundColor: Constants.darkPrimary,
+                                // Color.fromRGBO(172, 44, 58, 1),
+                                backgroundColor: Constants.darkPrimary,
+                                // Color.fromRGBO(172, 44, 58, 1),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  _Titulo_boton[index],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    _Rutas(index);
-                  },
-                )),
-              ],
-              mainAxisSize: MainAxisSize.max,
-            );
-          }),
+                      ],
+                    ),
+                    onTap: () {
+                      _Rutas(index);
+                    },
+                  )),
+                ],
+                mainAxisSize: MainAxisSize.max,
+              );
+            }),
+          ),
         ),
       ),
     );
